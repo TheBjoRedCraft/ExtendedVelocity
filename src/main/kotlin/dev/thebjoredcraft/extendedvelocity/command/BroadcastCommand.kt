@@ -18,8 +18,8 @@ class BroadcastCommand: SimpleCommand {
             return
         }
 
+        plugin.proxy.allPlayers.forEach { it.sendText(MessageBuilder().miniMessage("<white>${args.joinToString(" ")}")) }
         source.sendText("Successfully broadcasted message to all players on the proxy.")
-        plugin.proxy.allPlayers.forEach { it.sendText(MessageBuilder().miniMessage(args.joinToString(" "))) }
     }
 
     override fun hasPermission(invocation: SimpleCommand.Invocation): Boolean {
