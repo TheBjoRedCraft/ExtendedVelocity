@@ -16,6 +16,7 @@ class ShutdownCommand : SimpleCommand {
     private var plannedShutdownTime: Long? = null
     private var shutdownReason: String = ""
     private var shutdownTaskId: ScheduledTask? = null
+    private val notificationTaskIds: MutableList<ScheduledTask> = mutableListOf()
 
     override fun execute(invocation: SimpleCommand.Invocation) {
         val source = invocation.source()
@@ -59,7 +60,7 @@ class ShutdownCommand : SimpleCommand {
             }
 
             if (shouldNotify) {
-                plugin.proxy.scheduler.buildTask(plugin, Consumer {
+                val task = plugin.proxy.scheduler.buildTask(plugin, Consumer {
                     val message = MessageBuilder()
                         .newLine()
                         .withPrefix().white("Shutdown in ${formatSeconds(i)}...").newLine()
@@ -67,6 +68,8 @@ class ShutdownCommand : SimpleCommand {
                         .newLine()
                     plugin.proxy.allPlayers.forEach { it.sendRawText(message) }
                 }).delay((delayInSeconds - i).toLong(), TimeUnit.SECONDS).schedule()
+
+                notificationTaskIds.add(task)
             }
         }
 
@@ -84,13 +87,15 @@ class ShutdownCommand : SimpleCommand {
             return
         }
 
+        notificationTaskIds.forEach { it.cancel() }
+        notificationTaskIds.clear()
+
         taskId.cancel()
         source.sendText("The shutdown has been successfully canceled.")
 
         plannedShutdownTime = null
         shutdownTaskId = null
     }
-
 
     private fun shutdownInfo(source: CommandSource) {
         if (plannedShutdownTime == null) {
@@ -109,8 +114,18 @@ class ShutdownCommand : SimpleCommand {
         return invocation.source().hasPermission("extendedvelocity.command.shutdown")
     }
 
+    override fun suggest(invocation: SimpleCommand.Invocation): List<String> {
+        val args = invocation.arguments()
+
+        if (args.size <= 1) {
+            return listOf("plan", "cancel", "info")
+        }
+
+        return emptyList()
+    }
+
     private fun sendUsage(source: CommandSource) {
-        source.sendRawText(
+        source.sendRawText (
             MessageBuilder().spacer(" ")
                 .withPrefix().modernGreen("Available Arguments/Sub Commands for /shutdown").newLine()
                 .withPrefix().newLine()
