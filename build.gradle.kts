@@ -23,7 +23,7 @@ dependencies {
 }
 
 tasks.shadowJar {
-    relocate("org.bstats", "dev.thebjoredcraft.extendedvelocity.libs")
+    relocate("org.bstats", "dev.thebjoredcraft.extendedvelocity.bstats")
 }
 
 kotlin {
