@@ -2,7 +2,7 @@ package dev.thebjoredcraft.extendedvelocity
 
 import com.google.gson.Gson
 import com.google.inject.Inject
-import com.velocitypowered.api.command.CommandMeta
+
 import com.velocitypowered.api.event.Subscribe
 import com.velocitypowered.api.event.proxy.ProxyInitializeEvent
 import com.velocitypowered.api.event.proxy.ProxyShutdownEvent
@@ -10,6 +10,7 @@ import com.velocitypowered.api.plugin.Plugin
 import com.velocitypowered.api.plugin.PluginContainer
 import com.velocitypowered.api.plugin.annotation.DataDirectory
 import com.velocitypowered.api.proxy.ProxyServer
+
 import dev.thebjoredcraft.extendedvelocity.command.BroadcastCommand
 import dev.thebjoredcraft.extendedvelocity.command.FindCommand
 import dev.thebjoredcraft.extendedvelocity.command.PluginsCommand
@@ -17,7 +18,9 @@ import dev.thebjoredcraft.extendedvelocity.command.ServerCommand
 import dev.thebjoredcraft.extendedvelocity.command.ShutdownCommand
 import dev.thebjoredcraft.extendedvelocity.command.VersionCommand
 import dev.thebjoredcraft.extendedvelocity.command.WhereAmICommand
+
 import org.slf4j.Logger
+
 import java.nio.file.Path
 
 @Plugin (
