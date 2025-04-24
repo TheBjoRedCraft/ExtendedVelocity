@@ -5,11 +5,8 @@ import com.velocitypowered.api.command.SimpleCommand
 
 import dev.thebjoredcraft.extendedvelocity.message.MessageBuilder
 import dev.thebjoredcraft.extendedvelocity.plugin
-import dev.thebjoredcraft.extendedvelocity.util.error
 import dev.thebjoredcraft.extendedvelocity.util.sendRawText
 import dev.thebjoredcraft.extendedvelocity.util.sendText
-
-import kotlin.jvm.optionals.getOrNull
 
 class BroadcastCommand: SimpleCommand {
     override fun execute(invocation: SimpleCommand.Invocation) {
@@ -21,8 +18,9 @@ class BroadcastCommand: SimpleCommand {
             return
         }
 
-        plugin.proxy.allPlayers.forEach { it.sendRawText(MessageBuilder().white(args.joinToString(" "))) }
         source.sendText("Successfully broadcasted message to all players on the proxy.")
+        plugin.proxy.allPlayers.forEach { it.sendText(MessageBuilder().white(args.joinToString(" "))) }
+
     }
 
     override fun hasPermission(invocation: SimpleCommand.Invocation): Boolean {
