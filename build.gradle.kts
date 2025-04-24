@@ -1,5 +1,6 @@
 plugins {
     kotlin("jvm") version "2.1.20"
+    kotlin("kapt") version "2.1.20"
     id("com.gradleup.shadow") version "9.0.0-beta12"
 }
 
@@ -16,7 +17,7 @@ repositories {
 
 dependencies {
     compileOnly(libs.velocity.api)
-    annotationProcessor("com.velocitypowered:velocity-api:3.4.0-SNAPSHOT")
+    kapt("com.velocitypowered:velocity-api:3.4.0-SNAPSHOT")
 }
 
 kotlin {
