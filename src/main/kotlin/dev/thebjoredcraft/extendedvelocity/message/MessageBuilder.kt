@@ -13,43 +13,13 @@ class MessageBuilder {
         return this
     }
 
-    fun primary(text: String): MessageBuilder {
-        message = message.append(Component.text(text, Colors.PRIMARY))
-        return this
-    }
-
-    fun secondary(text: String): MessageBuilder {
-        message = message.append(Component.text(text, Colors.SECONDARY))
-        return this
-    }
-
-    fun info(text: String): MessageBuilder {
-        message = message.append(Component.text(text, Colors.INFO))
-        return this
-    }
-
     fun success(text: String): MessageBuilder {
         message = message.append(Component.text(text, Colors.SUCCESS))
         return this
     }
 
-    fun warning(text: String): MessageBuilder {
-        message = message.append(Component.text(text, Colors.WARNING))
-        return this
-    }
-
     fun error(text: String): MessageBuilder {
         message = message.append(Component.text(text, Colors.ERROR))
-        return this
-    }
-
-    fun variableKey(text: String): MessageBuilder {
-        message = message.append(Component.text(text, Colors.VARIABLE_KEY))
-        return this
-    }
-
-    fun variableValue(text: String): MessageBuilder {
-        message = message.append(Component.text(text, Colors.VARIABLE_VALUE))
         return this
     }
 

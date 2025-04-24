@@ -17,5 +17,5 @@ fun CommandSource.sendRawText(message: MessageBuilder) {
 }
 
 fun CommandSource.sendText(message: String) {
-    this.sendMessage(Colors.PREFIX.append { MessageBuilder().primary(message).build() })
+    this.sendMessage(Colors.PREFIX.append { MessageBuilder().modernGreen(message).build() })
 }

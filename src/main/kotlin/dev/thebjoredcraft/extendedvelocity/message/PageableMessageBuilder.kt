@@ -41,7 +41,7 @@ class PageableMessageBuilder(private val linesPerPage: Int = 10) {
     fun send(sender: Player, page: Int) {
         val totalPages = ceil(lines.size.toDouble() / linesPerPage).toInt().coerceAtLeast(1)
         if (page < 1 || page > totalPages) {
-            sender.sendText(MessageBuilder().error("Seite ").variableValue(page.toString()).error(" existiert nicht."))
+            sender.sendText(MessageBuilder().error("Seite ").modernGreen(page.toString()).error(" existiert nicht."))
             return
         }
 
@@ -64,7 +64,7 @@ class PageableMessageBuilder(private val linesPerPage: Int = 10) {
         val builder = MessageBuilder()
 
         fun navButton(label: String, targetPage: Int, enabled: Boolean) {
-            val hoverText = MessageBuilder().info("Seite $targetPage anzeigen")
+            val hoverText = MessageBuilder().modernGreen("Seite $targetPage anzeigen")
 
             if (enabled) {
                 builder.command(
