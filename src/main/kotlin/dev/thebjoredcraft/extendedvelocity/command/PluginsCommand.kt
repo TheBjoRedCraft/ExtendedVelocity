@@ -8,6 +8,7 @@ import dev.thebjoredcraft.extendedvelocity.plugin
 import dev.thebjoredcraft.extendedvelocity.util.sendRawText
 import dev.thebjoredcraft.extendedvelocity.util.sendText
 import net.kyori.adventure.text.Component
+import kotlin.sequences.ifEmpty
 
 class PluginsCommand: SimpleCommand {
     override fun execute(invocation: SimpleCommand.Invocation) {
@@ -21,16 +22,19 @@ class PluginsCommand: SimpleCommand {
 
         val plugins = plugin.proxy.pluginManager.plugins
         val pluginList = plugins.map {
-            val name = if (it.description.id == "velocity") "${it.description.name.orElse("Unknown")} (inbuild)" else it.description.name.orElse("Unknown")
+            val name = it.description.name.orElse("Unknown")
             val version = it.description.version.orElse("Unknown")
             val authors = it.description.authors.joinToString(", ").ifEmpty { "Unknown" }
             val description = it.description.description.orElse("No description provided.")
+            val isInbuild = it.description.id == "velocity"
 
             MessageBuilder()
                 .white(name)
                 .hover(
                     MessageBuilder()
-                        .modernGreen("Name: ").white(name).newLine()
+                        .modernGreen("Name: ").white(name).apply {
+                            if (isInbuild) this.white(" (inbuild)")
+                        }.newLine()
                         .modernGreen("Version: ").white(version).newLine()
                         .modernGreen("Authors: ").white(authors).newLine()
                         .modernGreen("Description: ").white(description)
