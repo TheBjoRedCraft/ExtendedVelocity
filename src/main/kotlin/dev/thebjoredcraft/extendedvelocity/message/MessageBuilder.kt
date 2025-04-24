@@ -13,6 +13,11 @@ class MessageBuilder {
         return this
     }
 
+    fun hover(message: MessageBuilder): MessageBuilder {
+        this.message = this.message.hoverEvent(HoverEvent.showText(message.build()))
+        return this
+    }
+
     fun success(text: String): MessageBuilder {
         message = message.append(Component.text(text, Colors.SUCCESS))
         return this
