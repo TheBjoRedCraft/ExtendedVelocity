@@ -93,6 +93,14 @@ class ShutdownCommand : SimpleCommand {
         taskId.cancel()
         source.sendText("The shutdown has been successfully canceled.")
 
+        plugin.proxy.allPlayers.forEach {
+            it.sendText(MessageBuilder()
+                .newLine()
+                .withPrefix().modernGreen("The shutdown has been canceled.").newLine()
+                .withPrefix().newLine()
+            )
+        }
+
         plannedShutdownTime = null
         shutdownTaskId = null
     }
