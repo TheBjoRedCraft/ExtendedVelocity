@@ -2,20 +2,22 @@ plugins {
     kotlin("jvm") version "2.1.20"
 }
 
-group = "dev.thebjoredcraft"
-version = "1.0-SNAPSHOT"
+group = "dev.thebjoredcraft.extendedvelocity"
+version = "1.0.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
+    maven {
+        name = "papermc"
+        url = uri("https://repo.papermc.io/repository/maven-public/")
+    }
 }
 
 dependencies {
-    testImplementation(kotlin("test"))
+    compileOnly("com.velocitypowered:velocity-api:3.4.0-SNAPSHOT")
+    annotationProcessor("com.velocitypowered:velocity-api:3.4.0-SNAPSHOT")
 }
 
-tasks.test {
-    useJUnitPlatform()
-}
 kotlin {
     jvmToolchain(21)
 }
