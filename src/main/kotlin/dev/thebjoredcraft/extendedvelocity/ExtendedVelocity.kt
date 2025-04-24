@@ -39,6 +39,8 @@ class ExtendedVelocity {
 
     @Subscribe
     fun onInitialization(event: ProxyInitializeEvent) {
+        INSTANCE = this
+
         val commandManager = proxy.commandManager
 
         commandManager.register(commandManager.metaBuilder("find").build(), FindCommand())
@@ -50,7 +52,8 @@ class ExtendedVelocity {
     }
 
     companion object {
-        val INSTANCE = ExtendedVelocity()
+        lateinit var INSTANCE: ExtendedVelocity
+            private set
     }
 }
 
