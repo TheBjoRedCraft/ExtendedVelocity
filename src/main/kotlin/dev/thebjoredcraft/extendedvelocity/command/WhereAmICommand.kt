@@ -34,7 +34,7 @@ class WhereAmICommand: SimpleCommand {
             formatTime(
                 System.currentTimeMillis()
             )
-        }) on ${connection.serverInfo.name} with a ping of ${player.ping}ms.")
+        }) on \"${connection.serverInfo.name}\" with a ping of ${player.ping}ms.")
     }
 
     override fun hasPermission(invocation: SimpleCommand.Invocation): Boolean {
