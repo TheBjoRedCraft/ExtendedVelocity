@@ -105,8 +105,8 @@ class ShutdownCommand : SimpleCommand {
         source.sendText("The shutdown has been successfully canceled.")
 
         plugin.proxy.allPlayers.forEach {
-            it.sendText(MessageBuilder().spacer(" ")
-                .newLine()
+            it.sendRawText(MessageBuilder().spacer(" ")
+                .withPrefix().newLine()
                 .withPrefix().modernGreen("The shutdown has been canceled.").newLine()
                 .withPrefix().newLine()
             )
