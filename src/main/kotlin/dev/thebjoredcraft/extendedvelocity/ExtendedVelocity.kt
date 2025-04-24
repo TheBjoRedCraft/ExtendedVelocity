@@ -60,8 +60,8 @@ class ExtendedVelocity {
 
         commandManager.register(commandManager.metaBuilder("find").build(), FindCommand())
         commandManager.register(commandManager.metaBuilder("broadcast").aliases("alert").build(), BroadcastCommand())
-        commandManager.register(commandManager.metaBuilder("vversion").build(), VersionCommand())
-        commandManager.register(commandManager.metaBuilder("vplugins").build(), PluginsCommand())
+        commandManager.register(commandManager.metaBuilder("vversion").aliases("vver").build(), VersionCommand())
+        commandManager.register(commandManager.metaBuilder("vplugins").aliases("vpl").build(), PluginsCommand())
         commandManager.register(commandManager.metaBuilder("server").build(), ServerCommand())
         commandManager.register(commandManager.metaBuilder("shutdown").build(), ShutdownCommand())
         commandManager.register(commandManager.metaBuilder("whereami").build(), WhereAmICommand())
