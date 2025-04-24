@@ -75,6 +75,17 @@ class ShutdownCommand : SimpleCommand {
 
         shutdownTaskId = plugin.proxy.scheduler.buildTask(plugin, Consumer {
             plugin.logger.warn("Shutting down the proxy as planned, reason: $shutdownReason")
+
+            plugin.proxy.allPlayers.forEach {
+                it.disconnect(MessageBuilder()
+                    .newLine()
+                    .withPrefix().white("The proxy is shutting down...").newLine()
+                    .withPrefix().modernGreen(shutdownReason).newLine()
+                    .newLine()
+                    .build()
+                )
+            }
+
             plugin.proxy.shutdown()
         }).delay(delayInSeconds.toLong(), TimeUnit.SECONDS).schedule()
     }
