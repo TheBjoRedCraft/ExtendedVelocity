@@ -10,6 +10,7 @@ import com.velocitypowered.api.plugin.Plugin
 import com.velocitypowered.api.plugin.PluginContainer
 import com.velocitypowered.api.plugin.annotation.DataDirectory
 import com.velocitypowered.api.proxy.ProxyServer
+import dev.thebjoredcraft.extendedvelocity.command.BroadcastCommand
 import dev.thebjoredcraft.extendedvelocity.command.FindCommand
 import org.slf4j.Logger
 import java.nio.file.Path
@@ -44,6 +45,7 @@ class ExtendedVelocity {
         val commandManager = proxy.commandManager
 
         commandManager.register(commandManager.metaBuilder("find").build(), FindCommand())
+        commandManager.register(commandManager.metaBuilder("broadcast").aliases("alert").build(), BroadcastCommand())
     }
 
     @Subscribe
