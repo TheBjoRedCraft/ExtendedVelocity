@@ -2,7 +2,7 @@ package dev.thebjoredcraft.extendedvelocity.command
 
 import com.velocitypowered.api.command.CommandSource
 import com.velocitypowered.api.command.SimpleCommand
-import com.velocitypowered.api.proxy.ProxyServer
+import com.velocitypowered.api.scheduler.ScheduledTask
 import dev.thebjoredcraft.extendedvelocity.message.MessageBuilder
 import dev.thebjoredcraft.extendedvelocity.plugin
 import dev.thebjoredcraft.extendedvelocity.util.error
@@ -11,26 +11,44 @@ import dev.thebjoredcraft.extendedvelocity.util.sendText
 import java.util.concurrent.TimeUnit
 import java.util.function.Consumer
 
-class ShutdownCommand() : SimpleCommand {
+class ShutdownCommand : SimpleCommand {
+
+    private var plannedShutdownTime: Long? = null
+    private var shutdownReason: String = ""
+    private var shutdownTaskId: ScheduledTask? = null
+
     override fun execute(invocation: SimpleCommand.Invocation) {
         val source = invocation.source()
         val args = invocation.arguments()
 
         if (args.isEmpty()) {
-            this.sendUsage(source)
+            sendUsage(source)
             return
         }
 
-        val timeArg = args[0]
-        val delayInSeconds = parseTime(timeArg)
+        when (args[0].lowercase()) {
+            "plan" -> planShutdown(source, args.toList())
+            "cancel" -> cancelShutdown(source)
+            "info" -> shutdownInfo(source)
+            else -> sendUsage(source)
+        }
+    }
 
-        if (delayInSeconds == null) {
+    private fun planShutdown(source: CommandSource, args: List<String>) {
+        if (args.size < 2) {
+            sendUsage(source)
+            return
+        }
+
+        val delayInSeconds = parseTime(args[1]) ?: run {
             source.error("Incorrect time format. Please use 10m, 1h, 30s...")
             return
         }
 
-        val reason = args.drop(1).joinToString(" ").ifEmpty { "Proxy shutting down." }
-        source.sendText("Successfully planned a proxy shutdown in ${formatSeconds(delayInSeconds)} with reason: $reason")
+        shutdownReason = args.drop(2).joinToString(" ").ifEmpty { "Proxy shutting down." }
+        source.sendText("Successfully planned a proxy shutdown in ${formatSeconds(delayInSeconds)} with reason: $shutdownReason")
+
+        plannedShutdownTime = System.currentTimeMillis() + delayInSeconds * 1000
 
         for (i in delayInSeconds downTo 1) {
             val shouldNotify = when {
@@ -44,18 +62,47 @@ class ShutdownCommand() : SimpleCommand {
                 plugin.proxy.scheduler.buildTask(plugin, Consumer {
                     val message = MessageBuilder()
                         .newLine()
-                        .withPrefix().modernGreen(reason).newLine()
                         .withPrefix().white("Shutdown in ${formatSeconds(i)}...").newLine()
+                        .withPrefix().modernGreen(shutdownReason).newLine()
                         .newLine()
                     plugin.proxy.allPlayers.forEach { it.sendRawText(message) }
                 }).delay((delayInSeconds - i).toLong(), TimeUnit.SECONDS).schedule()
-
             }
         }
 
-        plugin.proxy.scheduler.buildTask(plugin, Consumer {
+        shutdownTaskId = plugin.proxy.scheduler.buildTask(plugin, Consumer {
+            plugin.logger.warn("Shutting down the proxy as planned, reason: $shutdownReason")
             plugin.proxy.shutdown()
         }).delay(delayInSeconds.toLong(), TimeUnit.SECONDS).schedule()
+    }
+
+    private fun cancelShutdown(source: CommandSource) {
+        val taskId = shutdownTaskId
+
+        if (plannedShutdownTime == null || taskId == null) {
+            source.error("There is no scheduled shutdown to cancel.")
+            return
+        }
+
+        taskId.cancel()
+        source.sendText("The shutdown has been successfully canceled.")
+
+        plannedShutdownTime = null
+        shutdownTaskId = null
+    }
+
+
+    private fun shutdownInfo(source: CommandSource) {
+        if (plannedShutdownTime == null) {
+            source.sendText("No shutdown is currently planned.")
+            return
+        }
+
+        val timeLeft = plannedShutdownTime!! - System.currentTimeMillis()
+        val secondsLeft = timeLeft / 1000
+        val formattedTimeLeft = formatSeconds(secondsLeft.toInt())
+
+        source.sendText("Shutdown planned in $formattedTimeLeft with reason: $shutdownReason")
     }
 
     override fun hasPermission(invocation: SimpleCommand.Invocation): Boolean {
@@ -67,8 +114,14 @@ class ShutdownCommand() : SimpleCommand {
             MessageBuilder().spacer(" ")
                 .withPrefix().modernGreen("Available Arguments/Sub Commands for /shutdown").newLine()
                 .withPrefix().newLine()
-                .withPrefix().white("/shutdown <time> <reason>").newLine()
-                .darkSpacer(" - ").modernGreen("Shutdown the proxy with a specific reason and countdown.").newLine()
+                .withPrefix().white("/shutdown plan <time> <reason>").newLine()
+                .darkSpacer(" - ").modernGreen("Plan a proxy shutdown with a specific reason and countdown.").newLine()
+                .withPrefix().newLine()
+                .withPrefix().white("/shutdown cancel").newLine()
+                .darkSpacer(" - ").modernGreen("Cancel the planned shutdown.").newLine()
+                .withPrefix().newLine()
+                .withPrefix().white("/shutdown info").newLine()
+                .darkSpacer(" - ").modernGreen("Show information about the planned shutdown.").newLine()
         )
     }
 
