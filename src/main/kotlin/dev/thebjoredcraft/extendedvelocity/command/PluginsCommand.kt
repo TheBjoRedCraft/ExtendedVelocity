@@ -44,7 +44,6 @@ class PluginsCommand: SimpleCommand {
 
         source.sendText (
             MessageBuilder()
-                .withPrefix()
                 .modernGreen("There are ${plugins.size} plugins loaded: ")
                 .component(pluginList.reduce { acc, component -> acc.append(Component.text(", ")).append(component) })
         )
