@@ -67,7 +67,7 @@ class ShutdownCommand() : SimpleCommand {
             MessageBuilder().spacer(" ")
                 .withPrefix().modernGreen("Available Arguments/Sub Commands for /shutdown").newLine()
                 .withPrefix().newLine()
-                .withPrefix().white("/shutdown <zeit> <grund>").newLine()
+                .withPrefix().white("/shutdown <time> <reason>").newLine()
                 .darkSpacer(" - ").modernGreen("Shutdown the proxy with a specific reason and countdown.").newLine()
         )
     }
