@@ -16,6 +16,7 @@ import dev.thebjoredcraft.extendedvelocity.command.PluginsCommand
 import dev.thebjoredcraft.extendedvelocity.command.ServerCommand
 import dev.thebjoredcraft.extendedvelocity.command.ShutdownCommand
 import dev.thebjoredcraft.extendedvelocity.command.VersionCommand
+import dev.thebjoredcraft.extendedvelocity.command.WhereAmICommand
 import org.slf4j.Logger
 import java.nio.file.Path
 
@@ -54,6 +55,7 @@ class ExtendedVelocity {
         commandManager.register(commandManager.metaBuilder("vplugins").build(), PluginsCommand())
         commandManager.register(commandManager.metaBuilder("server").build(), ServerCommand())
         commandManager.register(commandManager.metaBuilder("shutdown").build(), ShutdownCommand())
+        commandManager.register(commandManager.metaBuilder("whereami").build(), WhereAmICommand())
     }
 
     @Subscribe
