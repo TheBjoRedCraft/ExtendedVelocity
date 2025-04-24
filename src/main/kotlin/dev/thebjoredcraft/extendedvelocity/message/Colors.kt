@@ -17,9 +17,9 @@ object Colors {
     val DARK_SPACER: NamedTextColor = NamedTextColor.DARK_GRAY
     val PREFIX_COLOR: TextColor = PRIMARY
 
-    val MODERN_GREEN: TextColor = TextColor.color(0x90EE90)
+    val MODERN_GREEN: TextColor = TextColor.color(0x55FF55)
 
-    val PREFIX: Component = Component.text(">> ", SPACER)
+    val PREFIX: Component = Component.text("» ", DARK_SPACER)
 
     val BLACK: NamedTextColor = NamedTextColor.BLACK
     val DARK_BLUE: NamedTextColor = NamedTextColor.DARK_BLUE
