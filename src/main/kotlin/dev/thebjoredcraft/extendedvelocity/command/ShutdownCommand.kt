@@ -99,7 +99,7 @@ class ShutdownCommand : SimpleCommand {
 
     private fun shutdownInfo(source: CommandSource) {
         if (plannedShutdownTime == null) {
-            source.sendText("No shutdown is currently planned.")
+            source.error("There is currently no planned shutdown.")
             return
         }
 
@@ -107,7 +107,7 @@ class ShutdownCommand : SimpleCommand {
         val secondsLeft = timeLeft / 1000
         val formattedTimeLeft = formatSeconds(secondsLeft.toInt())
 
-        source.sendText("Shutdown planned in $formattedTimeLeft with reason: $shutdownReason")
+        source.sendText("Successfully planned a shutdown in $formattedTimeLeft with reason: $shutdownReason")
     }
 
     override fun hasPermission(invocation: SimpleCommand.Invocation): Boolean {
