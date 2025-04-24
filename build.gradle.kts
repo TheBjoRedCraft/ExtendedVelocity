@@ -18,6 +18,12 @@ repositories {
 dependencies {
     compileOnly(libs.velocity.api)
     kapt("com.velocitypowered:velocity-api:3.4.0-SNAPSHOT")
+
+    implementation(libs.bstats.api)
+}
+
+tasks.shadowJar {
+    relocate("org.bstats", "dev.thebjoredcraft.extendedvelocity.libs")
 }
 
 kotlin {

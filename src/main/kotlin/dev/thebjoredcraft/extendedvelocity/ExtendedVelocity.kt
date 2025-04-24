@@ -18,6 +18,7 @@ import dev.thebjoredcraft.extendedvelocity.command.ServerCommand
 import dev.thebjoredcraft.extendedvelocity.command.ShutdownCommand
 import dev.thebjoredcraft.extendedvelocity.command.VersionCommand
 import dev.thebjoredcraft.extendedvelocity.command.WhereAmICommand
+import org.bstats.velocity.Metrics
 
 import org.slf4j.Logger
 
@@ -43,6 +44,9 @@ class ExtendedVelocity {
     lateinit var pluginContainer: PluginContainer
 
     @Inject
+    lateinit var metricsFactory: Metrics.Factory
+
+    @Inject
     @DataDirectory
     lateinit var dataFolder: Path
 
@@ -51,6 +55,8 @@ class ExtendedVelocity {
         INSTANCE = this
 
         val commandManager = proxy.commandManager
+
+        metricsFactory.make(this, 25615)
 
         commandManager.register(commandManager.metaBuilder("find").build(), FindCommand())
         commandManager.register(commandManager.metaBuilder("broadcast").aliases("alert").build(), BroadcastCommand())

@@ -1,5 +1,7 @@
 [versions]
 velocity-api = "3.4.0-SNAPSHOT"
+bstats-api = "3.0.2"
 
 [libraries]
 velocity-api = { module = "com.velocitypowered:velocity-api", version.ref = "velocity-api" }
+bstats-api = { module = "org.bstats:bstats-velocity", version.ref = "bstats-api" }
