@@ -19,7 +19,7 @@ class BroadcastCommand: SimpleCommand {
             return
         }
 
-        plugin.proxy.allPlayers.forEach { it.sendText(MessageBuilder()
+        plugin.proxy.allPlayers.forEach { it.sendText(MessageBuilder().spacer(" ")
             .newLine()
             .withPrefix().miniMessage("<${Colors.MODERN_GREEN.asHexString()}><b>${args.joinToString(" ")}").newLine()
             .withPrefix().newLine()
