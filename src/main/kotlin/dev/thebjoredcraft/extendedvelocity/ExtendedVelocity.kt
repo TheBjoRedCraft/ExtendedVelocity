@@ -13,6 +13,7 @@ import com.velocitypowered.api.proxy.ProxyServer
 import dev.thebjoredcraft.extendedvelocity.command.BroadcastCommand
 import dev.thebjoredcraft.extendedvelocity.command.FindCommand
 import dev.thebjoredcraft.extendedvelocity.command.PluginsCommand
+import dev.thebjoredcraft.extendedvelocity.command.ServerCommand
 import dev.thebjoredcraft.extendedvelocity.command.VersionCommand
 import org.slf4j.Logger
 import java.nio.file.Path
@@ -50,6 +51,7 @@ class ExtendedVelocity {
         commandManager.register(commandManager.metaBuilder("broadcast").aliases("alert").build(), BroadcastCommand())
         commandManager.register(commandManager.metaBuilder("vversion").build(), VersionCommand())
         commandManager.register(commandManager.metaBuilder("vplugins").build(), PluginsCommand())
+        commandManager.register(commandManager.metaBuilder("server").build(), ServerCommand())
     }
 
     @Subscribe
