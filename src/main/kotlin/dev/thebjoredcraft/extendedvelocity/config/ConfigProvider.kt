@@ -35,7 +35,10 @@ object ConfigProvider {
     }
 }
 
-val config = ConfigProvider.configuration ?: throw IllegalStateException("Config not loaded. Please call ConfigProvider.load() before using this.")
+val config: Configuration by lazy {
+    ConfigProvider.configuration ?: throw IllegalStateException("Config not loaded. Please call ConfigProvider.load() before using this.")
+}
+
 
 fun configValue(path: String): String? {
     return ConfigProvider.config?.node(path)?.string

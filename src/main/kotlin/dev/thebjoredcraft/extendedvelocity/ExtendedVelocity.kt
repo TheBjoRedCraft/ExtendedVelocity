@@ -13,6 +13,7 @@ import com.velocitypowered.api.proxy.ProxyServer
 
 import dev.thebjoredcraft.extendedvelocity.command.BroadcastCommand
 import dev.thebjoredcraft.extendedvelocity.command.FindCommand
+import dev.thebjoredcraft.extendedvelocity.command.ListCommand
 import dev.thebjoredcraft.extendedvelocity.command.PluginsCommand
 import dev.thebjoredcraft.extendedvelocity.command.ServerCommand
 import dev.thebjoredcraft.extendedvelocity.command.ShutdownCommand
@@ -68,6 +69,7 @@ class ExtendedVelocity {
         commandManager.register(commandManager.metaBuilder("shutdown").build(), ShutdownCommand())
         commandManager.register(commandManager.metaBuilder("whereami").build(), WhereAmICommand())
         commandManager.register(commandManager.metaBuilder("extendedvelocity").aliases("ev").build(), ExtendedVelocityCommand())
+        commandManager.register(commandManager.metaBuilder("list").aliases("vlist").build(), ListCommand())
 
         ConfigProvider.load()
     }

@@ -15,7 +15,7 @@ class ExtendedVelocityCommand: SimpleCommand {
         val args = invocation.arguments()
 
         if (args.isEmpty()) {
-            source.sendText(MessageBuilder().modernGreen("The proxy server is running ExtendedVelocity v1.1.0 by TheBjoRedCraft on ${System.getProperty("os.name")} ${System.getProperty("os.version")}"))
+            source.sendText(MessageBuilder().modernGreen("This server is running ExtendedVelocity v1.1.0 by TheBjoRedCraft on ${System.getProperty("os.name")} ${System.getProperty("os.version")}"))
             return
         }
 
