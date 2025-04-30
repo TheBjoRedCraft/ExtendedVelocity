@@ -126,7 +126,7 @@ class ShutdownCommand : SimpleCommand {
         val secondsLeft = timeLeft / 1000
         val formattedTimeLeft = formatSeconds(secondsLeft.toInt())
 
-        source.sendText("Successfully planned a shutdown in $formattedTimeLeft with reason: $shutdownReason")
+        source.sendText("There is a shutdown planned in $formattedTimeLeft with reason: $shutdownReason")
     }
 
     override fun hasPermission(invocation: SimpleCommand.Invocation): Boolean {
