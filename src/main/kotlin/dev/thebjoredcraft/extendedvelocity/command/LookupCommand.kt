@@ -10,7 +10,7 @@ import dev.thebjoredcraft.extendedvelocity.util.sendRawText
 
 import kotlin.jvm.optionals.getOrNull
 
-class FindCommand: SimpleCommand {
+class LookupCommand: SimpleCommand {
     override fun execute(invocation: SimpleCommand.Invocation) {
         val source = invocation.source()
         val args = invocation.arguments()
@@ -43,7 +43,7 @@ class FindCommand: SimpleCommand {
     }
 
     override fun hasPermission(invocation: SimpleCommand.Invocation): Boolean {
-        return invocation.source().hasPermission("extendedvelocity.command.find")
+        return invocation.source().hasPermission("extendedvelocity.command.lookup")
     }
 
     override fun suggest(invocation: SimpleCommand.Invocation): List<String> {
@@ -58,10 +58,10 @@ class FindCommand: SimpleCommand {
 
     private fun sendUsage(source: CommandSource) {
         source.sendRawText(MessageBuilder().spacer(" ")
-            .withPrefix().modernGreen("Available Arguments/Sub Commands for /find").newLine()
+            .withPrefix().modernGreen("Available Arguments/Sub Commands for /lookup").newLine()
             .withPrefix().newLine()
-            .withPrefix().white("/find <player>").newLine()
-            .darkSpacer(" - ").modernGreen("Find a player and their server connection.").newLine()
+            .withPrefix().white("/lookup <player>").newLine()
+            .darkSpacer(" - ").modernGreen("Lookup a player and their server connection.").newLine()
         )
     }
 }

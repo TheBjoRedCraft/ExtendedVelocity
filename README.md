@@ -18,11 +18,11 @@ Broadcasts a message to all players on the proxy.
 
 ---
 
-### `/find <player>`
+### `/lookup <player>`
 Finds the server a specific player is currently connected to.
 
-- **Permission**: `extendedvelocity.command.find`
-- **Usage**: `/find <player>`
+- **Permission**: `extendedvelocity.command.lookup`
+- **Usage**: `/lookup <player>`
 
 ---
 

@@ -12,7 +12,7 @@ import com.velocitypowered.api.plugin.annotation.DataDirectory
 import com.velocitypowered.api.proxy.ProxyServer
 
 import dev.thebjoredcraft.extendedvelocity.command.BroadcastCommand
-import dev.thebjoredcraft.extendedvelocity.command.FindCommand
+import dev.thebjoredcraft.extendedvelocity.command.LookupCommand
 import dev.thebjoredcraft.extendedvelocity.command.ListCommand
 import dev.thebjoredcraft.extendedvelocity.command.PluginsCommand
 import dev.thebjoredcraft.extendedvelocity.command.ServerCommand
@@ -61,7 +61,7 @@ class ExtendedVelocity {
 
         metricsFactory.make(this, 25615)
 
-        commandManager.register(commandManager.metaBuilder("find").build(), FindCommand())
+        commandManager.register(commandManager.metaBuilder("lookup").build(), LookupCommand())
         commandManager.register(commandManager.metaBuilder("broadcast").aliases("alert").build(), BroadcastCommand())
         commandManager.register(commandManager.metaBuilder("vversion").aliases("vver").build(), VersionCommand())
         commandManager.register(commandManager.metaBuilder("vplugins").aliases("vpl").build(), PluginsCommand())
