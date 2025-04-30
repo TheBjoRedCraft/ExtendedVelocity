@@ -7,8 +7,9 @@ import java.nio.file.Files
 import java.nio.file.Path
 
 object ConfigProvider {
-    lateinit var configPath: Path
-    lateinit var config: CommentedConfigurationNode
+    var configPath: Path? = null
+    var config: CommentedConfigurationNode? = null
+    var configuration: Configuration? = null
 
     fun load() {
         if(Files.notExists(plugin.dataFolder)) {
@@ -25,11 +26,17 @@ object ConfigProvider {
 
         val loader = YamlConfigurationLoader.builder().path(configPath).build()
         config = loader.load()
+
+        configuration = Configuration()
+    }
+
+    fun reload() {
+        this.load()
     }
 }
 
-val config = ConfigProvider.config
+val config = ConfigProvider.configuration ?: throw IllegalStateException("Config not loaded. Please call ConfigProvider.load() before using this.")
 
-fun CommentedConfigurationNode.configValue(path: String): String {
-    return ConfigProvider.config.node(path).string ?: ""
+fun configValue(path: String): String? {
+    return ConfigProvider.config?.node(path)?.string
 }

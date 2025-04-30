@@ -18,6 +18,8 @@ import dev.thebjoredcraft.extendedvelocity.command.ServerCommand
 import dev.thebjoredcraft.extendedvelocity.command.ShutdownCommand
 import dev.thebjoredcraft.extendedvelocity.command.VersionCommand
 import dev.thebjoredcraft.extendedvelocity.command.WhereAmICommand
+import dev.thebjoredcraft.extendedvelocity.command.internal.ExtendedVelocityCommand
+import dev.thebjoredcraft.extendedvelocity.config.ConfigProvider
 import org.bstats.velocity.Metrics
 
 import org.slf4j.Logger
@@ -65,6 +67,9 @@ class ExtendedVelocity {
         commandManager.register(commandManager.metaBuilder("server").build(), ServerCommand())
         commandManager.register(commandManager.metaBuilder("shutdown").build(), ShutdownCommand())
         commandManager.register(commandManager.metaBuilder("whereami").build(), WhereAmICommand())
+        commandManager.register(commandManager.metaBuilder("extendedvelocity").aliases("ev").build(), ExtendedVelocityCommand())
+
+        ConfigProvider.load()
     }
 
     @Subscribe

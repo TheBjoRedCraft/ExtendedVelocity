@@ -1,5 +1,6 @@
 package dev.thebjoredcraft.extendedvelocity.message
 
+import dev.thebjoredcraft.extendedvelocity.config.config
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.event.ClickEvent
 import net.kyori.adventure.text.event.HoverEvent
@@ -9,7 +10,7 @@ class MessageBuilder {
     private var message: Component = Component.empty()
 
     fun withPrefix(): MessageBuilder {
-        message = message.append(Colors.PREFIX)
+        message = message.append(config.prefix)
         return this
     }
 
