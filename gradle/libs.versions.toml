@@ -1,7 +1,9 @@
 [versions]
 velocity-api = "3.4.0-SNAPSHOT"
 bstats-api = "3.0.2"
+jackson-yml = "2.18.1"
 
 [libraries]
 velocity-api = { module = "com.velocitypowered:velocity-api", version.ref = "velocity-api" }
 bstats-api = { module = "org.bstats:bstats-velocity", version.ref = "bstats-api" }
+jackson-yml = { module = "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml", version.ref = "jackson-yml" }

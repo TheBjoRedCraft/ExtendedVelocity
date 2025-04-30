@@ -17,8 +17,9 @@ repositories {
 
 dependencies {
     compileOnly(libs.velocity.api)
-    kapt("com.velocitypowered:velocity-api:3.4.0-SNAPSHOT")
+    kapt(libs.velocity.api)
 
+    implementation(libs.jackson.yml)
     implementation(libs.bstats.api)
 }
 
