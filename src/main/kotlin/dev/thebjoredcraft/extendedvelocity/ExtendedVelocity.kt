@@ -10,11 +10,13 @@ import com.velocitypowered.api.plugin.Plugin
 import com.velocitypowered.api.plugin.PluginContainer
 import com.velocitypowered.api.plugin.annotation.DataDirectory
 import com.velocitypowered.api.proxy.ProxyServer
+import dev.thebjoredcraft.extendedvelocity.brand.CustomBrandService
 
 import dev.thebjoredcraft.extendedvelocity.command.*
 import dev.thebjoredcraft.extendedvelocity.command.internal.ExtendedVelocityCommand
 import dev.thebjoredcraft.extendedvelocity.config.Config
-import dev.thebjoredcraft.extendedvelocity.service.MaintenanceService
+import dev.thebjoredcraft.extendedvelocity.maintenance.MaintenanceListener
+import dev.thebjoredcraft.extendedvelocity.maintenance.MaintenanceService
 
 import org.bstats.velocity.Metrics
 import org.slf4j.Logger
@@ -48,6 +50,7 @@ class ExtendedVelocity {
 
     var pluginConfig: Config? = null
     var maintenanceConfig: Config? = null
+    var brandConfig: Config? = null
 
     @Subscribe
     fun onInitialization(event: ProxyInitializeEvent) {
@@ -56,6 +59,8 @@ class ExtendedVelocity {
         metricsFactory.make(this, 25615)
 
         val commandManager = proxy.commandManager
+        val listenerManager = proxy.eventManager
+
         commandManager.register(commandManager.metaBuilder("lookup").build(), LookupCommand())
         commandManager.register(commandManager.metaBuilder("broadcast").aliases("alert").build(), BroadcastCommand())
         commandManager.register(commandManager.metaBuilder("vversion").aliases("vver").build(), VersionCommand())
@@ -66,7 +71,11 @@ class ExtendedVelocity {
         commandManager.register(commandManager.metaBuilder("extendedvelocity").aliases("ev").build(), ExtendedVelocityCommand())
         commandManager.register(commandManager.metaBuilder("list").aliases("vlist").build(), ListCommand())
 
+        listenerManager.register(this, MaintenanceListener())
+
         MaintenanceService.load()
+        CustomBrandService.load()
+        CustomBrandService.start()
     }
 
     fun loadConfigurations() {
@@ -75,11 +84,15 @@ class ExtendedVelocity {
 
         maintenanceConfig = Config(folder = dataFolder, fileName = "maintenance")
         maintenanceConfig?.load()
+
+        brandConfig = Config(folder = dataFolder, fileName = "server-brand")
+        brandConfig?.load()
     }
 
     @Subscribe
     fun onShutdown(event: ProxyShutdownEvent) {
         MaintenanceService.save()
+        CustomBrandService.stop()
     }
 
     companion object {

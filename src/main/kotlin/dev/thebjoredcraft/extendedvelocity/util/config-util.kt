@@ -10,3 +10,7 @@ val maintenanceConfig: Config by lazy {
 val pluginConfig: Config by lazy {
     plugin.pluginConfig ?: throw IllegalStateException("Config '${pluginConfig.fileName}' not initialized.")
 }
+
+val brandConfig: Config by lazy {
+    plugin.brandConfig ?: throw IllegalStateException("Config '${brandConfig.fileName}' not initialized.")
+}

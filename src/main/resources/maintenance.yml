@@ -1,2 +1,14 @@
 status: false
-kick-screen: ""
+
+ping:
+  version: ""
+  hover:
+    - "Line1"
+    - "Line2"
+  playerCount:
+  motd: "<red>A new MOTD!"
+
+# Do not change this unless you know what you are doing.
+# When changing this, the server needs to be offline for this to work.
+# Everything else will be overwritten.
+kick-message: ""

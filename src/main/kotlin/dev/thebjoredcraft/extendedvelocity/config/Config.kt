@@ -36,6 +36,14 @@ class Config(private val folder: Path, val fileName: String) {
         return getNodeFromPath(path).raw()
     }
 
+    fun int(path: String): Int {
+        return this.getNodeFromPath(path).int
+    }
+
+    fun list(path: String): List<String> {
+        return this.getNodeFromPath(path).getList(String::class.java) ?: emptyList()
+    }
+
     fun boolean(path: String): Boolean {
         return this.getNodeFromPath(path).boolean
     }
