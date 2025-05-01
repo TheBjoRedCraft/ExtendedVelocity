@@ -11,20 +11,13 @@ import com.velocitypowered.api.plugin.PluginContainer
 import com.velocitypowered.api.plugin.annotation.DataDirectory
 import com.velocitypowered.api.proxy.ProxyServer
 
-import dev.thebjoredcraft.extendedvelocity.command.BroadcastCommand
-import dev.thebjoredcraft.extendedvelocity.command.LookupCommand
-import dev.thebjoredcraft.extendedvelocity.command.ListCommand
-import dev.thebjoredcraft.extendedvelocity.command.PluginsCommand
-import dev.thebjoredcraft.extendedvelocity.command.ServerCommand
-import dev.thebjoredcraft.extendedvelocity.command.ShutdownCommand
-import dev.thebjoredcraft.extendedvelocity.command.VersionCommand
-import dev.thebjoredcraft.extendedvelocity.command.WhereAmICommand
+import dev.thebjoredcraft.extendedvelocity.command.*
 import dev.thebjoredcraft.extendedvelocity.command.internal.ExtendedVelocityCommand
-import dev.thebjoredcraft.extendedvelocity.config.ConfigProvider
+import dev.thebjoredcraft.extendedvelocity.config.Config
+import dev.thebjoredcraft.extendedvelocity.service.MaintenanceService
+
 import org.bstats.velocity.Metrics
-
 import org.slf4j.Logger
-
 import java.nio.file.Path
 
 @Plugin (
@@ -53,14 +46,16 @@ class ExtendedVelocity {
     @DataDirectory
     lateinit var dataFolder: Path
 
+    var pluginConfig: Config? = null
+    var maintenanceConfig: Config? = null
+
     @Subscribe
     fun onInitialization(event: ProxyInitializeEvent) {
         INSTANCE = this
-
-        val commandManager = proxy.commandManager
-
+        this.loadConfigurations()
         metricsFactory.make(this, 25615)
 
+        val commandManager = proxy.commandManager
         commandManager.register(commandManager.metaBuilder("lookup").build(), LookupCommand())
         commandManager.register(commandManager.metaBuilder("broadcast").aliases("alert").build(), BroadcastCommand())
         commandManager.register(commandManager.metaBuilder("vversion").aliases("vver").build(), VersionCommand())
@@ -71,12 +66,20 @@ class ExtendedVelocity {
         commandManager.register(commandManager.metaBuilder("extendedvelocity").aliases("ev").build(), ExtendedVelocityCommand())
         commandManager.register(commandManager.metaBuilder("list").aliases("vlist").build(), ListCommand())
 
-        ConfigProvider.load()
+        MaintenanceService.load()
+    }
+
+    fun loadConfigurations() {
+        pluginConfig = Config(folder = dataFolder, fileName = "config")
+        pluginConfig?.load()
+
+        maintenanceConfig = Config(folder = dataFolder, fileName = "maintenance")
+        maintenanceConfig?.load()
     }
 
     @Subscribe
     fun onShutdown(event: ProxyShutdownEvent) {
-
+        MaintenanceService.save()
     }
 
     companion object {
