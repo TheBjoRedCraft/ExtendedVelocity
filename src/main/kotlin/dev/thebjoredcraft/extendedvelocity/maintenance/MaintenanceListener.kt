@@ -1,8 +1,9 @@
 package dev.thebjoredcraft.extendedvelocity.maintenance
 
 import com.google.common.eventbus.Subscribe
-import com.velocitypowered.api.event.connection.PreLoginEvent
 
+import com.velocitypowered.api.event.ResultedEvent
+import com.velocitypowered.api.event.connection.LoginEvent
 import com.velocitypowered.api.event.proxy.ProxyPingEvent
 import com.velocitypowered.api.proxy.server.ServerPing
 
@@ -34,11 +35,16 @@ class MaintenanceListener {
     }
 
     @Subscribe
-    fun onConnect(event: PreLoginEvent) {
+    fun onConnect(event: LoginEvent) {
         if(!MaintenanceService.isEnabled()) {
             return
         }
 
-        event.result = PreLoginEvent.PreLoginComponentResult.denied(MaintenanceService.kickMessage.miniMessage())
+        if(event.player.hasPermission("extendedvelocity.maintenance.bypass")) {
+            return
+        }
+
+
+        event.result = ResultedEvent.ComponentResult.denied(MaintenanceService.kickMessage.miniMessage())
     }
 }

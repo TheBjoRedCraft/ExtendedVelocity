@@ -19,6 +19,14 @@ object MaintenanceService {
         pingHover = maintenanceConfig.list("ping.hover")
     }
 
+    fun enable() {
+        maintenanceMode = true
+    }
+
+    fun disable() {
+        maintenanceMode = false
+    }
+
     fun save() {
         maintenanceConfig.set("status", maintenanceMode)
         maintenanceConfig.save()

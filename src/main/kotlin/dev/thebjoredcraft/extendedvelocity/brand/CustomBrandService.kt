@@ -65,6 +65,12 @@ object CustomBrandService {
         this.start()
     }
 
+    fun reload() {
+        this.stop()
+        this.load()
+        this.start()
+    }
+
     fun stop() {
         task?.cancel()
     }

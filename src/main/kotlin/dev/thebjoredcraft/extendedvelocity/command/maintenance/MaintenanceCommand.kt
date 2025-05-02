@@ -2,8 +2,10 @@ package dev.thebjoredcraft.extendedvelocity.command.maintenance
 
 import com.velocitypowered.api.command.CommandSource
 import com.velocitypowered.api.command.SimpleCommand
+import dev.thebjoredcraft.extendedvelocity.maintenance.MaintenanceService
 import dev.thebjoredcraft.extendedvelocity.message.MessageBuilder
 import dev.thebjoredcraft.extendedvelocity.util.sendRawText
+import dev.thebjoredcraft.extendedvelocity.util.sendText
 
 class MaintenanceCommand: SimpleCommand {
     override fun execute(invocation: SimpleCommand.Invocation) {
@@ -17,13 +19,28 @@ class MaintenanceCommand: SimpleCommand {
 
         when (args[0]) {
             "status" -> {
-
+                source.sendText(when(MaintenanceService.isEnabled()){
+                    true -> MessageBuilder().modernGreen("The maintenance is currently enabled.")
+                    false -> MessageBuilder().modernGreen("The maintenance is currently disabled.")
+                })
             }
             "enable" -> {
+                if (MaintenanceService.isEnabled()) {
+                    source.sendText(MessageBuilder().error("The maintenance is already enabled."))
+                    return
+                }
 
+                MaintenanceService.enable()
+                source.sendText(MessageBuilder().modernGreen("The maintenance has been enabled."))
             }
             "disable" -> {
+                if (!MaintenanceService.isEnabled()) {
+                    source.sendText(MessageBuilder().error("The maintenance is already disabled."))
+                    return
+                }
 
+                MaintenanceService.disable()
+                source.sendText(MessageBuilder().modernGreen("The maintenance has been disabled."))
             }
             else -> {
                 this.sendUsage(source)
@@ -32,7 +49,7 @@ class MaintenanceCommand: SimpleCommand {
     }
 
     override fun hasPermission(invocation: SimpleCommand.Invocation): Boolean {
-        return invocation.source().hasPermission("extendedvelocity.command.maintenance")
+        return invocation.source().hasPermission("extendedvelocity.maintenance.command")
     }
 
     private fun sendUsage(source: CommandSource) {

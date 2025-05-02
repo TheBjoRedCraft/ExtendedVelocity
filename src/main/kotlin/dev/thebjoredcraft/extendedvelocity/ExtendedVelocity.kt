@@ -14,9 +14,11 @@ import dev.thebjoredcraft.extendedvelocity.brand.CustomBrandService
 
 import dev.thebjoredcraft.extendedvelocity.command.*
 import dev.thebjoredcraft.extendedvelocity.command.internal.ExtendedVelocityCommand
+import dev.thebjoredcraft.extendedvelocity.command.maintenance.MaintenanceCommand
 import dev.thebjoredcraft.extendedvelocity.config.Config
 import dev.thebjoredcraft.extendedvelocity.maintenance.MaintenanceListener
 import dev.thebjoredcraft.extendedvelocity.maintenance.MaintenanceService
+import dev.thebjoredcraft.extendedvelocity.message.Colors
 
 import org.bstats.velocity.Metrics
 import org.slf4j.Logger
@@ -70,12 +72,14 @@ class ExtendedVelocity {
         commandManager.register(commandManager.metaBuilder("whereami").build(), WhereAmICommand())
         commandManager.register(commandManager.metaBuilder("extendedvelocity").aliases("ev").build(), ExtendedVelocityCommand())
         commandManager.register(commandManager.metaBuilder("list").aliases("vlist").build(), ListCommand())
+        commandManager.register(commandManager.metaBuilder("maintenance").build(), MaintenanceCommand())
 
         listenerManager.register(this, MaintenanceListener())
 
         MaintenanceService.load()
         CustomBrandService.load()
         CustomBrandService.start()
+        Colors.loadPrefix()
     }
 
     fun loadConfigurations() {
