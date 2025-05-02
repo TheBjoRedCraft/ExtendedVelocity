@@ -13,14 +13,21 @@ repositories {
         name = "papermc"
         url = uri("https://repo.papermc.io/repository/maven-public/")
     }
+
+    maven {
+        name = "william278"
+        url = uri("https://repo.william278.net/velocity/")
+    }
 }
 
 dependencies {
     compileOnly(libs.velocity.api)
+    compileOnly(libs.velocity.proxy)
     kapt(libs.velocity.api)
 
     implementation(libs.jackson.yml)
     implementation(libs.bstats.api)
+    implementation("io.netty:netty-buffer:5.0.0.Alpha2")
 }
 
 tasks.shadowJar {
