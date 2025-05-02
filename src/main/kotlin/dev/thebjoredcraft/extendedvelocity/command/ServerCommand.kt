@@ -27,9 +27,8 @@ class ServerCommand : SimpleCommand {
         }
 
         val permissionNode = "extendedvelocity.server.${server.serverInfo.name}"
-        val hasWildcard = source.hasPermission("extendedvelocity.server.*")
 
-        if (!source.hasPermission(permissionNode) && !hasWildcard) {
+        if (!source.hasPermission(permissionNode) && !source.hasPermission("extendedvelocity.server.*")) {
             source.error("You don't have permission to connect to this server.")
             return
         }
@@ -50,8 +49,8 @@ class ServerCommand : SimpleCommand {
             } else {
                 source.error("Failed to connect to ${server.serverInfo.name}.")
             }
-        }.exceptionally { throwable ->
-            source.error("An error occurred while trying to connect to ${server.serverInfo.name}: ${throwable.message}")
+        }.exceptionally {
+            source.error("An error occurred while trying to connect to ${server.serverInfo.name}: ${it.message}")
             null
         }
     }
@@ -73,11 +72,10 @@ class ServerCommand : SimpleCommand {
     override fun suggest(invocation: SimpleCommand.Invocation): List<String> {
         val source = invocation.source()
         val args = invocation.arguments()
-        val hasWildcard = source.hasPermission("extendedvelocity.server.*")
 
         if (args.size <= 1) {
             return plugin.proxy.allServers
-                .filter { hasWildcard || source.hasPermission("extendedvelocity.server.${it.serverInfo.name}") }
+                .filter { source.hasPermission("extendedvelocity.server.*") || source.hasPermission("extendedvelocity.server.${it.serverInfo.name}") }
                 .map { it.serverInfo.name }
         }
 

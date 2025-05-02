@@ -36,10 +36,12 @@ class ListCommand: SimpleCommand {
             val playerComponents = players.mapIndexed { index, player ->
                 val serverName = player.currentServer.getOrNull()?.serverInfo?.name ?: "Unknown"
 
-                Component.text(player.username)
-                    .hoverEvent(Component.text("Server: $serverName"))
-                    .clickEvent(ClickEvent.runCommand("/server $serverName"))
-                    .append(if (index < players.size - 1) Component.text(", ") else Component.empty())
+                MessageBuilder()
+                    .white(player.username)
+                    .spacer(" ($serverName")
+                    .globalHover(MessageBuilder().modernGreen("Click to connect to $serverName"))
+                    .globalCommand("/server $serverName")
+                    .component(if (index < players.size - 1) Component.text(", ") else Component.empty()).build()
             }
 
             source.sendText(MessageBuilder().modernGreen("There are ${players.size} players online: ").component(
