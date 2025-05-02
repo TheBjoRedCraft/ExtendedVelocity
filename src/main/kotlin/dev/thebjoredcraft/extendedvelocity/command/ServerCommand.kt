@@ -57,7 +57,7 @@ class ServerCommand : SimpleCommand {
     }
 
     override fun hasPermission(invocation: SimpleCommand.Invocation): Boolean {
-        return invocation.source().hasPermission("extendedvelocity.command.server")
+        return invocation.source().hasPermission("extendedvelocity.server.command")
     }
 
     private fun sendUsage(source: CommandSource) {

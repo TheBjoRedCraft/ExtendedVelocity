@@ -62,7 +62,7 @@ class ListCommand: SimpleCommand {
     }
 
     override fun hasPermission(invocation: SimpleCommand.Invocation): Boolean {
-        return invocation.source().hasPermission("extendedvelocity.command.list")
+        return invocation.source().hasPermission("extendedvelocity.list.command")
     }
 
     override fun suggest(invocation: SimpleCommand.Invocation): List<String> {

@@ -43,7 +43,7 @@ class LookupCommand: SimpleCommand {
     }
 
     override fun hasPermission(invocation: SimpleCommand.Invocation): Boolean {
-        return invocation.source().hasPermission("extendedvelocity.command.lookup")
+        return invocation.source().hasPermission("extendedvelocity.lookup.command")
     }
 
     override fun suggest(invocation: SimpleCommand.Invocation): List<String> {

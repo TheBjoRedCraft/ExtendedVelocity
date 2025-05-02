@@ -130,7 +130,7 @@ class ShutdownCommand : SimpleCommand {
     }
 
     override fun hasPermission(invocation: SimpleCommand.Invocation): Boolean {
-        return invocation.source().hasPermission("extendedvelocity.command.shutdown")
+        return invocation.source().hasPermission("extendedvelocity.shutdown.command")
     }
 
     override fun suggest(invocation: SimpleCommand.Invocation): List<String> {

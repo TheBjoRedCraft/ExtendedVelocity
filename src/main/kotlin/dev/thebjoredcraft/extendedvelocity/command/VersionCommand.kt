@@ -22,7 +22,7 @@ class VersionCommand: SimpleCommand {
     }
 
     override fun hasPermission(invocation: SimpleCommand.Invocation): Boolean {
-        return invocation.source().hasPermission("extendedvelocity.command.version")
+        return invocation.source().hasPermission("extendedvelocity.version.command")
     }
 
     private fun sendUsage(source: CommandSource) {

@@ -50,7 +50,7 @@ class PluginsCommand: SimpleCommand {
     }
 
     override fun hasPermission(invocation: SimpleCommand.Invocation): Boolean {
-        return invocation.source().hasPermission("extendedvelocity.command.plugins")
+        return invocation.source().hasPermission("extendedvelocity.plugins.command")
     }
 
     private fun sendUsage(source: CommandSource) {

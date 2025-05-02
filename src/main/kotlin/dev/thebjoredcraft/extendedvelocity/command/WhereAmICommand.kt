@@ -38,7 +38,7 @@ class WhereAmICommand: SimpleCommand {
     }
 
     override fun hasPermission(invocation: SimpleCommand.Invocation): Boolean {
-        return invocation.source().hasPermission("extendedvelocity.command.whereami")
+        return invocation.source().hasPermission("extendedvelocity.whereami.command")
     }
 
     private fun sendUsage(source: CommandSource) {

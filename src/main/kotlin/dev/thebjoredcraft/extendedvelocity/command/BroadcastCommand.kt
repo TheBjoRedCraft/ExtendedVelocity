@@ -28,7 +28,7 @@ class BroadcastCommand: SimpleCommand {
     }
 
     override fun hasPermission(invocation: SimpleCommand.Invocation): Boolean {
-        return invocation.source().hasPermission("extendedvelocity.command.broadcast")
+        return invocation.source().hasPermission("extendedvelocity.broadcast.command")
     }
 
     private fun sendUsage(source: CommandSource) {

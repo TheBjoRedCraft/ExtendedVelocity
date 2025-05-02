@@ -65,6 +65,6 @@ class ExtendedVelocityCommand: SimpleCommand {
     }
 
     override fun hasPermission(invocation: SimpleCommand.Invocation): Boolean {
-        return invocation.source().hasPermission("extendedvelocity.command.extendedvelocity")
+        return invocation.source().hasPermission("extendedvelocity.extendedvelocity.command")
     }
 }
