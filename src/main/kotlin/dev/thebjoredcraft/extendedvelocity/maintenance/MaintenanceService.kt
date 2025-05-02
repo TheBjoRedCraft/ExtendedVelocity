@@ -29,7 +29,9 @@ object MaintenanceService {
     fun enable() {
         maintenanceMode = true
 
-        plugin.proxy.allPlayers.forEach { it.disconnect(kickMessage.miniMessage()) }
+        plugin.proxy.allPlayers
+            .filter { !it.hasPermission("extendedvelocity.maintenance.bypass") }
+            .forEach { it.disconnect(kickMessage.miniMessage()) }
     }
 
     fun disable() {
