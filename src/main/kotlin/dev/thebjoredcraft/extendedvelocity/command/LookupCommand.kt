@@ -39,6 +39,8 @@ class LookupCommand: SimpleCommand {
             .withPrefix().modernGreen("Ping: ").white("${target.ping}ms").newLine()
             .withPrefix().modernGreen("Address: ").white(target.remoteAddress.toString()).newLine()
             .withPrefix().modernGreen("Client: ").white(target.clientBrand ?: "N/A").newLine()
+            .globalCommand("/server ${connection.serverInfo.name}")
+            .globalHover(MessageBuilder().modernGreen("Click to connect to ${connection.serverInfo.name}"))
         )
     }
 

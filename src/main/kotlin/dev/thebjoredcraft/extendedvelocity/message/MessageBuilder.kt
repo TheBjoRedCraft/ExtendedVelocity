@@ -59,6 +59,21 @@ class MessageBuilder {
         return this
     }
 
+    fun globalCommand(command: String): MessageBuilder {
+        message = message.clickEvent(ClickEvent.runCommand(command))
+        return this
+    }
+
+    fun globalSuggest(command: String): MessageBuilder {
+        message = message.clickEvent(ClickEvent.suggestCommand(command))
+        return this
+    }
+
+    fun globalHover(hover: MessageBuilder): MessageBuilder {
+        message = message.hoverEvent(HoverEvent.showText(hover.build()))
+        return this
+    }
+
     fun command(text: MessageBuilder, hover: MessageBuilder, command: String): MessageBuilder {
         message = message.append(text.build().clickEvent(ClickEvent.runCommand(command)).hoverEvent(HoverEvent.showText(hover.build())))
         return this
