@@ -1,6 +1,8 @@
 package dev.thebjoredcraft.extendedvelocity.maintenance
 
+import dev.thebjoredcraft.extendedvelocity.plugin
 import dev.thebjoredcraft.extendedvelocity.util.maintenanceConfig
+import dev.thebjoredcraft.extendedvelocity.util.miniMessage
 
 object MaintenanceService {
     private var maintenanceMode: Boolean = false
@@ -26,6 +28,8 @@ object MaintenanceService {
 
     fun enable() {
         maintenanceMode = true
+
+        plugin.proxy.allPlayers.forEach { it.disconnect(kickMessage.miniMessage()) }
     }
 
     fun disable() {
