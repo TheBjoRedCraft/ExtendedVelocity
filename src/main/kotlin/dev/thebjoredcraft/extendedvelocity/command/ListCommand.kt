@@ -8,7 +8,9 @@ import dev.thebjoredcraft.extendedvelocity.plugin
 import dev.thebjoredcraft.extendedvelocity.util.error
 import dev.thebjoredcraft.extendedvelocity.util.sendRawText
 import dev.thebjoredcraft.extendedvelocity.util.sendText
+
 import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.event.ClickEvent
 import kotlin.jvm.optionals.getOrNull
 
 class ListCommand: SimpleCommand {
@@ -30,13 +32,18 @@ class ListCommand: SimpleCommand {
                 return
             }
 
-            val playerList = players.joinToString(", ") { it.username }
+            val playerComponents = players.mapIndexed { index, player ->
+                val serverName = player.currentServer.getOrNull()?.serverInfo?.name ?: "Unknown"
 
-            source.sendText(MessageBuilder()
-                .modernGreen("There are ${players.size} players online: ")
-                .white(playerList)
-            )
+                Component.text(player.username)
+                    .hoverEvent(Component.text("Server: $serverName"))
+                    .clickEvent(ClickEvent.runCommand("/server $serverName"))
+                    .append(if (index < players.size - 1) Component.text(", ") else Component.empty())
+            }
 
+            source.sendText(MessageBuilder().modernGreen("There are ${players.size} players online: ").component(
+                playerComponents.reduce { acc, comp -> acc.append(comp) }
+            ))
         } else {
             val serverName = args[0]
 
@@ -52,12 +59,18 @@ class ListCommand: SimpleCommand {
                 return
             }
 
-            val playerList = players.joinToString(", ") { it.username }
+            val playerComponents = players.mapIndexed { index, player ->
+                val serverName = player.currentServer.getOrNull()?.serverInfo?.name ?: "Unknown"
 
-            source.sendText(MessageBuilder()
-                .modernGreen("There are ${players.size} players online on $serverName: ")
-                .white(playerList)
-            )
+                Component.text(player.username)
+                    .hoverEvent(Component.text("Server: $serverName"))
+                    .clickEvent(ClickEvent.runCommand("/server $serverName"))
+                    .append(if (index < players.size - 1) Component.text(", ") else Component.empty())
+            }
+
+            source.sendText(MessageBuilder().modernGreen("There are ${players.size} players online: ").component(
+                playerComponents.reduce { acc, comp -> acc.append(comp) }
+            ))
         }
     }
 
