@@ -3,6 +3,7 @@ package dev.thebjoredcraft.extendedvelocity.command.internal
 import com.velocitypowered.api.command.CommandSource
 import com.velocitypowered.api.command.SimpleCommand
 import dev.thebjoredcraft.extendedvelocity.brand.CustomBrandService
+import dev.thebjoredcraft.extendedvelocity.maintenance.MaintenanceService
 import dev.thebjoredcraft.extendedvelocity.message.Colors
 
 import dev.thebjoredcraft.extendedvelocity.message.MessageBuilder
@@ -31,6 +32,7 @@ class ExtendedVelocityCommand: SimpleCommand {
                 val ms = measureTimeMillis {
                     CustomBrandService.reload()
                     Colors.loadPrefix()
+                    MaintenanceService.reload()
                 }
 
                 source.sendText(MessageBuilder().modernGreen("Successfully reloaded ExtendedVelocity in ${ms}ms!"))

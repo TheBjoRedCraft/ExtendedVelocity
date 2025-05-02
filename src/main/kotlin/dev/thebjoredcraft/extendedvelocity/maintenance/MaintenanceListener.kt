@@ -1,37 +1,25 @@
 package dev.thebjoredcraft.extendedvelocity.maintenance
 
-import com.google.common.eventbus.Subscribe
-
 import com.velocitypowered.api.event.ResultedEvent
+import com.velocitypowered.api.event.Subscribe
 import com.velocitypowered.api.event.connection.LoginEvent
 import com.velocitypowered.api.event.proxy.ProxyPingEvent
 import com.velocitypowered.api.proxy.server.ServerPing
-
 import dev.thebjoredcraft.extendedvelocity.util.miniMessage
-import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer
-
-import java.util.UUID
 
 class MaintenanceListener {
     @Subscribe
     fun onProxyPing(event: ProxyPingEvent) {
-        if(!MaintenanceService.isEnabled()) {
+        if (!MaintenanceService.isEnabled()) {
             return
         }
 
-        event.ping = event.ping.asBuilder()
-            .version(ServerPing.Version(
-                1, MaintenanceService.pingVersion
-            ))
-            .clearSamplePlayers()
-            .samplePlayers(MaintenanceService.pingHover.map {
-                ServerPing.SamplePlayer(
-                    LegacyComponentSerializer.legacySection().serialize(it.miniMessage()),
-                    UUID.randomUUID()
-                )
-            })
-            .description(MaintenanceService.pingMotd.miniMessage())
-            .build()
+        val builder = event.ping.asBuilder()
+
+        builder.version(ServerPing.Version(1, MaintenanceService.pingVersion))
+        builder.description(MaintenanceService.pingMotd.miniMessage())
+
+        event.ping = builder.build()
     }
 
     @Subscribe
@@ -43,7 +31,6 @@ class MaintenanceListener {
         if(event.player.hasPermission("extendedvelocity.maintenance.bypass")) {
             return
         }
-
 
         event.result = ResultedEvent.ComponentResult.denied(MaintenanceService.kickMessage.miniMessage())
     }

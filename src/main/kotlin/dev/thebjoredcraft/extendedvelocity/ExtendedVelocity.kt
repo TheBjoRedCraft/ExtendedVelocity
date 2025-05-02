@@ -61,7 +61,7 @@ class ExtendedVelocity {
         metricsFactory.make(this, 25615)
 
         val commandManager = proxy.commandManager
-        val listenerManager = proxy.eventManager
+        val eventManager = proxy.eventManager
 
         commandManager.register(commandManager.metaBuilder("lookup").build(), LookupCommand())
         commandManager.register(commandManager.metaBuilder("broadcast").aliases("alert").build(), BroadcastCommand())
@@ -74,7 +74,7 @@ class ExtendedVelocity {
         commandManager.register(commandManager.metaBuilder("list").aliases("vlist").build(), ListCommand())
         commandManager.register(commandManager.metaBuilder("maintenance").build(), MaintenanceCommand())
 
-        listenerManager.register(this, MaintenanceListener())
+        eventManager.register(this, MaintenanceListener())
 
         MaintenanceService.load()
         CustomBrandService.load()
