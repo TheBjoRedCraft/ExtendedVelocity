@@ -2,6 +2,7 @@ package dev.thebjoredcraft.extendedvelocity.command
 
 import com.velocitypowered.api.command.CommandSource
 import com.velocitypowered.api.command.SimpleCommand
+import dev.thebjoredcraft.extendedvelocity.message.Colors
 
 import dev.thebjoredcraft.extendedvelocity.message.MessageBuilder
 import dev.thebjoredcraft.extendedvelocity.plugin
@@ -42,7 +43,7 @@ class ListCommand: SimpleCommand {
             }
 
             source.sendText(MessageBuilder().modernGreen("There are ${players.size} players online: ").component(
-                playerComponents.reduce { acc, comp -> acc.append(comp) }
+                playerComponents.reduce { acc, comp -> acc.append(comp) }.color(Colors.WHITE)
             ))
         } else {
             val serverName = args[0]
@@ -69,7 +70,7 @@ class ListCommand: SimpleCommand {
             }
 
             source.sendText(MessageBuilder().modernGreen("There are ${players.size} players online: ").component(
-                playerComponents.reduce { acc, comp -> acc.append(comp) }
+                playerComponents.reduce { acc, comp -> acc.append(comp) }.color(Colors.WHITE)
             ))
         }
     }

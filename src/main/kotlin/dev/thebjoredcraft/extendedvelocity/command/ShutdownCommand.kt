@@ -28,14 +28,14 @@ class ShutdownCommand : SimpleCommand {
         }
 
         when (args[0].lowercase()) {
-            "plan" -> planShutdown(source, args.toList())
+            "plan" -> planShutdown(source, args)
             "cancel" -> cancelShutdown(source)
             "info" -> shutdownInfo(source)
             else -> sendUsage(source)
         }
     }
 
-    private fun planShutdown(source: CommandSource, args: List<String>) {
+    private fun planShutdown(source: CommandSource, args: Array<String>) {
         if (args.size < 2) {
             sendUsage(source)
             return
