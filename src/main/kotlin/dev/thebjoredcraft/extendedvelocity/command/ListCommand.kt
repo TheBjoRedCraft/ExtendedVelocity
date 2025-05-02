@@ -38,7 +38,7 @@ class ListCommand: SimpleCommand {
 
                 MessageBuilder()
                     .white(player.username)
-                    .spacer(" ($serverName")
+                    .spacer(" ($serverName)")
                     .globalHover(MessageBuilder().modernGreen("Click to connect to $serverName"))
                     .globalCommand("/server $serverName")
                     .component(if (index < players.size - 1) Component.text(", ") else Component.empty()).build()
