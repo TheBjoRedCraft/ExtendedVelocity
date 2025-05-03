@@ -1,14 +1,25 @@
 status: false
+kick:
+  message: ""
+  onEnable: true
 
-ping:
-  version: ""
-  hover:
-    - "Line1"
-    - "Line2"
-  playerCount:
-  motd: "<red>A new MOTD!"
 
-# Do not change this unless you know what you are doing.
-# When changing this, the server needs to be offline for this to work.
-# Everything else will be overwritten.
-kick-message: ""
+motd:
+  enabled: true
+  message: "        <#55FF55><bold>Welcome to ExtendedVelocity</bold> <#555555>[1.21.x]\n<#555555>        ✎ Configure this message in <#55FF55>motd.yml"
+
+version:
+  enabled: true
+  version: 769 # Java 1.21.4
+  message: "You can connect with 1.21.x"
+
+playerCount:
+  enabled: true
+  onlinePlayers: "%online%"
+  maxPlayers: "%online% + 1"
+
+samplePlayers:
+  enabled: true
+  players:
+    - "<#55FF55>Ouuu nice! So many players!"
+    - "<white>Get support: dc.example.com"
