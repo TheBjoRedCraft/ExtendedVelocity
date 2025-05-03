@@ -20,6 +20,7 @@ import dev.thebjoredcraft.extendedvelocity.maintenance.MaintenanceListener
 import dev.thebjoredcraft.extendedvelocity.maintenance.MaintenanceService
 import dev.thebjoredcraft.extendedvelocity.message.Colors
 import dev.thebjoredcraft.extendedvelocity.motd.MotdListener
+import dev.thebjoredcraft.extendedvelocity.motd.MotdService
 
 import org.bstats.velocity.Metrics
 import org.slf4j.Logger
@@ -82,6 +83,7 @@ class ExtendedVelocity {
         MaintenanceService.load()
         CustomBrandService.load()
         CustomBrandService.start()
+        MotdService.load()
         Colors.loadPrefix()
     }
 
