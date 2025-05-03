@@ -80,10 +80,10 @@ class ExtendedVelocity {
         eventManager.register(this, MaintenanceListener())
         eventManager.register(this, MotdListener())
 
-        MaintenanceService.load()
         CustomBrandService.load()
         CustomBrandService.start()
         MotdService.load()
+        MaintenanceService.load()
         Colors.loadPrefix()
     }
 

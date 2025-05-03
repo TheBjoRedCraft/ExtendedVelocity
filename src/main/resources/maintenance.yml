@@ -1,8 +1,8 @@
 status: false
+
 kick:
   message: ""
   onEnable: true
-
 
 motd:
   enabled: true

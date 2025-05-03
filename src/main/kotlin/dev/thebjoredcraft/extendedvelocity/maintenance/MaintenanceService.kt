@@ -45,6 +45,11 @@ object MaintenanceService {
         samplePlayers = motdConfig.list("samplePlayers.players")
     }
 
+    fun save() {
+        //maintenanceConfig.set("status", maintenanceMode)
+        //maintenanceConfig.save()
+    }
+
     fun reload() {
         this.save()
         this.load()
@@ -62,11 +67,6 @@ object MaintenanceService {
 
     fun disable() {
         maintenanceMode = false
-    }
-
-    fun save() {
-        maintenanceConfig.set("status", maintenanceMode)
-        maintenanceConfig.save()
     }
 
     fun isEnabled(): Boolean {

@@ -29,8 +29,14 @@ class Config(private val folder: Path, val fileName: String) {
 
     fun set(path: String, value: Any) {
         val node = getNodeFromPath(path)
-        node.set(value)
+        if (value is Boolean) {
+            node.set(Boolean::class.javaPrimitiveType, value)
+        } else {
+            node.set(value)
+        }
     }
+
+
 
     fun get(path: String): Any? {
         return getNodeFromPath(path).raw()
