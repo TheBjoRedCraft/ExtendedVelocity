@@ -28,6 +28,7 @@ dependencies {
     implementation(libs.jackson.yml)
     implementation(libs.bstats.api)
     implementation("io.netty:netty-buffer:5.0.0.Alpha2")
+    implementation("net.objecthunter:exp4j:0.4.8")
 }
 
 tasks.shadowJar {

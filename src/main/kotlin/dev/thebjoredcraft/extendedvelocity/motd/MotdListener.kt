@@ -6,8 +6,7 @@ import com.velocitypowered.api.proxy.server.ServerPing
 import dev.thebjoredcraft.extendedvelocity.maintenance.MaintenanceService
 import dev.thebjoredcraft.extendedvelocity.plugin
 import dev.thebjoredcraft.extendedvelocity.util.miniMessage
-
-import javax.script.ScriptEngineManager
+import net.objecthunter.exp4j.ExpressionBuilder
 
 class MotdListener {
     @Subscribe
@@ -35,9 +34,11 @@ class MotdListener {
     }
 
     fun String.calculatePlayers(): Int {
-        val processed = this.replace("%online%", plugin.proxy.allPlayers.size.toString()).replace("%online_max%", plugin.proxy.configuration.showMaxPlayers.toString())
-        val result = ScriptEngineManager().getEngineByName("JavaScript").eval(processed)
+        val processed = this
+            .replace("%online%", plugin.proxy.allPlayers.size.toString())
+            .replace("%online_max%", plugin.proxy.configuration.showMaxPlayers.toString())
 
-        return (result as Number).toInt()
+        val result = ExpressionBuilder(processed).build().evaluate()
+        return result.toInt()
     }
 }
