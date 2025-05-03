@@ -5,6 +5,7 @@ import com.velocitypowered.api.event.proxy.ProxyPingEvent
 import com.velocitypowered.api.proxy.server.ServerPing
 import dev.thebjoredcraft.extendedvelocity.maintenance.MaintenanceService
 import dev.thebjoredcraft.extendedvelocity.plugin
+import dev.thebjoredcraft.extendedvelocity.util.legacy
 import dev.thebjoredcraft.extendedvelocity.util.miniMessage
 import net.objecthunter.exp4j.ExpressionBuilder
 import java.util.UUID
@@ -32,7 +33,7 @@ class MotdListener {
         }
 
         if(MotdService.samplePlayersEnabled) {
-            MotdService.samplePlayers.forEach { builder.samplePlayers(ServerPing.SamplePlayer(it, UUID.randomUUID())) }
+            MotdService.samplePlayers.forEach { builder.samplePlayers(ServerPing.SamplePlayer(it.legacy(), UUID.randomUUID())) }
         }
 
         event.ping = builder.build()
