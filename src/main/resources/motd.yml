@@ -1,6 +1,6 @@
 motd:
   enabled: true
-  message: "         <#55FF55><bold>Welcome to ExtendedVelocity</bold> <#555555>[1.21.x]\n<#555555>    ✎ Configure this message in <#55FF55>motd.yml"
+  message: "        <#55FF55><bold>Welcome to ExtendedVelocity</bold> <#555555>[1.21.x]\n<#555555>        ✎ Configure this message in <#55FF55>motd.yml"
 
 version:
   enabled: true
