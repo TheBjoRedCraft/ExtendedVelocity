@@ -7,6 +7,7 @@ import dev.thebjoredcraft.extendedvelocity.maintenance.MaintenanceService
 import dev.thebjoredcraft.extendedvelocity.plugin
 import dev.thebjoredcraft.extendedvelocity.util.miniMessage
 import net.objecthunter.exp4j.ExpressionBuilder
+import java.util.UUID
 
 class MotdListener {
     @Subscribe
@@ -28,6 +29,10 @@ class MotdListener {
         if(MotdService.playerCountEnabled) {
             builder.onlinePlayers(MotdService.playerCountOnline.calculatePlayers())
             builder.maximumPlayers(MotdService.playerCountMax.calculatePlayers())
+        }
+
+        if(MotdService.samplePlayersEnabled) {
+            MotdService.samplePlayers.forEach { builder.samplePlayers(ServerPing.SamplePlayer(it, UUID.randomUUID())) }
         }
 
         event.ping = builder.build()

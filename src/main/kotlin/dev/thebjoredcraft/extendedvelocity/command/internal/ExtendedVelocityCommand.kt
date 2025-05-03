@@ -8,6 +8,7 @@ import dev.thebjoredcraft.extendedvelocity.message.Colors
 
 import dev.thebjoredcraft.extendedvelocity.message.MessageBuilder
 import dev.thebjoredcraft.extendedvelocity.motd.MotdService
+import dev.thebjoredcraft.extendedvelocity.plugin
 import dev.thebjoredcraft.extendedvelocity.util.sendRawText
 import dev.thebjoredcraft.extendedvelocity.util.sendText
 import kotlin.system.measureTimeMillis
@@ -31,6 +32,8 @@ class ExtendedVelocityCommand: SimpleCommand {
             "reload", "rl" -> {
                 source.sendText(MessageBuilder().modernGreen("Reloading ExtendedVelocity..."))
                 val ms = measureTimeMillis {
+                    plugin.loadConfigurations()
+
                     CustomBrandService.reload()
                     Colors.loadPrefix()
                     MaintenanceService.reload()
