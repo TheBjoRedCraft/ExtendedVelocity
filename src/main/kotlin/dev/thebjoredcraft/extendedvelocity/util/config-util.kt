@@ -14,3 +14,7 @@ val pluginConfig: Config by lazy {
 val brandConfig: Config by lazy {
     plugin.brandConfig ?: throw IllegalStateException("Config '${brandConfig.fileName}' not initialized.")
 }
+
+val motdConfig: Config by lazy {
+    plugin.motdConfig ?: throw IllegalStateException("Config '${motdConfig.fileName}' not initialized.")
+}

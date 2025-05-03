@@ -19,6 +19,7 @@ import dev.thebjoredcraft.extendedvelocity.config.Config
 import dev.thebjoredcraft.extendedvelocity.maintenance.MaintenanceListener
 import dev.thebjoredcraft.extendedvelocity.maintenance.MaintenanceService
 import dev.thebjoredcraft.extendedvelocity.message.Colors
+import dev.thebjoredcraft.extendedvelocity.motd.MotdListener
 
 import org.bstats.velocity.Metrics
 import org.slf4j.Logger
@@ -53,6 +54,7 @@ class ExtendedVelocity {
     var pluginConfig: Config? = null
     var maintenanceConfig: Config? = null
     var brandConfig: Config? = null
+    var motdConfig: Config? = null
 
     @Subscribe
     fun onInitialization(event: ProxyInitializeEvent) {
@@ -75,6 +77,7 @@ class ExtendedVelocity {
         commandManager.register(commandManager.metaBuilder("maintenance").build(), MaintenanceCommand())
 
         eventManager.register(this, MaintenanceListener())
+        eventManager.register(this, MotdListener())
 
         MaintenanceService.load()
         CustomBrandService.load()
@@ -91,6 +94,9 @@ class ExtendedVelocity {
 
         brandConfig = Config(folder = dataFolder, fileName = "server-brand")
         brandConfig?.load()
+
+        motdConfig = Config(folder = dataFolder, fileName = "motd")
+        motdConfig?.load()
     }
 
     @Subscribe

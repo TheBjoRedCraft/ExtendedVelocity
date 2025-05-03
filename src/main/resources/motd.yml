@@ -1,0 +1,19 @@
+motd:
+  enabled: true
+  message: ""
+
+version:
+  enabled: true
+  version: 1
+  message: "1.0.0"
+
+playerCount:
+  enabled: true
+  onlinePlayers: "%online%"
+  maxPlayers: "%online% + 1"
+
+samplePlayers:
+  enabled: false
+  players:
+    - "Line1"
+    - "Line2"
