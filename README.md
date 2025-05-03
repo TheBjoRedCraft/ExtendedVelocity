@@ -9,19 +9,18 @@
 
 ## Commands Overview
 
-### `/broadcast <message>`
+### `/broadcast`
 Broadcasts a message to all players on the proxy.
 
-- **Permission**: `extendedvelocity.command.broadcast`
+- **Permission**: `extendedvelocity.broadcast.command`
 - **Usage**: `/broadcast <message>`
 - **Aliases**: `/alert`
-
 ---
 
-### `/lookup <player>`
+### `/lookup`
 Finds the server a specific player is currently connected to.
 
-- **Permission**: `extendedvelocity.command.lookup`
+- **Permission**: `extendedvelocity.lookup.command`
 - **Usage**: `/lookup <player>`
 
 ---
@@ -29,7 +28,7 @@ Finds the server a specific player is currently connected to.
 ### `/vplugins`
 Displays a list of all installed plugins on the proxy.
 
-- **Permission**: `extendedvelocity.command.plugins`
+- **Permission**: `extendedvelocity.plugins.command`
 - **Usage**: `/vplugins`
 
 ---
@@ -37,23 +36,43 @@ Displays a list of all installed plugins on the proxy.
 ### `/vversion`
 Displays the current version of the Velocity Proxy.
 
-- **Permission**: `extendedvelocity.command.version`
+- **Permission**: `extendedvelocity.version.command`
 - **Usage**: `/vversion`
 
 ---
 
-### `/server <server>`
+### `/server
 Connects you to a specific server.
 
-- **Permission**: `extendedvelocity.command.server`
+- **Permission**: `extendedvelocity.server.command`
 - **Usage**: `/server <server>`
 
+---
+
+### `/maintenance`
+Manages the proxy maintenance mode.
+
+- **Permission**: `extendedvelocity.maintenance.command`
+- **Subcommands**:
+  - `/maintenance enable`: Enabled the proxy maintenance mode.
+  - `/maintenance disable`: Disables the proxy maintenance mode.
+  - `/maintenance status`: Displays information about the maintenance mode.
+
+---
+
+### `/list`
+Manages the proxy maintenance mode.
+
+- **Permission**: `extendedvelocity.list.command`
+- **Subcommands**:
+  - `/list`: Displays the players on all servers.
+  - `/list <server>`: Displays the players on a specific server.
 ---
 
 ### `/shutdown`
 Manages the proxy shutdown process.
 
-- **Permission**: `extendedvelocity.command.shutdown`
+- **Permission**: `extendedvelocity.shutdown.command`
 - **Subcommands**:
   - `/shutdown plan <time> <reason>`: Plans a proxy shutdown with a countdown and reason.
   - `/shutdown cancel`: Cancels the planned shutdown.
@@ -61,10 +80,19 @@ Manages the proxy shutdown process.
 
 ---
 
+### `/extendedvelocity`
+The main command of this plugin.
+
+- **Permission**: `extendedvelocity.extendedvelocity.command`
+- **Subcommands**:
+  - `/shutdown reload`: Reloads the plugin configuration.
+
+---
+
 ### `/whereami`
 Displays the server you are currently connected to.
 
-- **Permission**: `extendedvelocity.command.whereami`
+- **Permission**: `extendedvelocity.whereami.command`
 - **Usage**: `/whereami`
 
 ## Installation
