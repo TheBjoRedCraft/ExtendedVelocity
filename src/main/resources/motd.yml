@@ -1,11 +1,11 @@
 motd:
   enabled: true
-  message: ""
+  message: "<#55FF55><bold>Welcome to YourServer</bold> <#555555>[1.20.x]\n<#555555>✎ Configure this message in <#55FF55>motd.yml</color>"
 
 version:
   enabled: true
-  version: 1
-  message: "1.0.0"
+  version: 765 # Java 1.21.4
+  message: "You can connect with 1.21.x"
 
 playerCount:
   enabled: true
