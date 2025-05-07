@@ -28,7 +28,7 @@ class Config(private val folder: Path, val fileName: String) {
     }
 
     fun set(path: String, value: Any) {
-        val node = getNodeFromPath(path)
+        val node = getNode(path)
         if (value is Boolean) {
             node.set(Boolean::class.javaPrimitiveType, value)
         } else {
@@ -36,26 +36,24 @@ class Config(private val folder: Path, val fileName: String) {
         }
     }
 
-
-
     fun get(path: String): Any? {
-        return getNodeFromPath(path).raw()
+        return getNode(path).raw()
     }
 
     fun int(path: String): Int {
-        return this.getNodeFromPath(path).int
+        return this.getNode(path).int
     }
 
     fun list(path: String): List<String> {
-        return this.getNodeFromPath(path).getList(String::class.java) ?: emptyList()
+        return this.getNode(path).getList(String::class.java) ?: emptyList()
     }
 
     fun boolean(path: String): Boolean {
-        return this.getNodeFromPath(path).boolean
+        return this.getNode(path).boolean
     }
 
     fun string(path: String): String {
-        return this.getNodeFromPath(path).string ?: ""
+        return this.getNode(path).string ?: ""
     }
 
     fun generateDefaultConfig() {
@@ -69,7 +67,7 @@ class Config(private val folder: Path, val fileName: String) {
         }
     }
 
-    private fun getNodeFromPath(path: String): ConfigurationNode {
+    private fun getNode(path: String): ConfigurationNode {
         if (!::rootNode.isInitialized) throw IllegalStateException("Config '$fileName' not loaded. Please call Config#load() before using this")
         return path.split('.').fold(rootNode) { node, key -> node.node(key) }
     }

@@ -14,7 +14,7 @@ import java.util.UUID
 class MaintenanceListener {
     @Subscribe
     fun onProxyPing(event: ProxyPingEvent) {
-        if (MaintenanceService.isEnabled()) {
+        if (!MaintenanceService.isEnabled()) {
             return
         }
 
