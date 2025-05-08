@@ -42,13 +42,29 @@ class ShutdownCommand : SimpleCommand {
         }
 
         val delayInSeconds = parseTime(args[1]) ?: run {
-            source.error("Incorrect time format. Please use 10m, 1h, 30s...")
+            source.error("Incorrect time format. Please use 10m, 1h, 30s, or 'n/now' for immediate shutdown.")
             return
         }
 
         shutdownReason = args.drop(2).joinToString(" ").ifEmpty { "Proxy shutting down." }
-        source.sendText("Successfully planned a proxy shutdown in ${formatSeconds(delayInSeconds)} with reason: $shutdownReason")
 
+        if (delayInSeconds == 0) {
+            source.sendText("Shutting down the proxy immediately with reason: $shutdownReason")
+            plugin.proxy.allPlayers.forEach {
+                it.disconnect(
+                    MessageBuilder()
+                        .newLine()
+                        .withPrefix().white("The proxy is shutting down...").newLine()
+                        .withPrefix().modernGreen(shutdownReason).newLine()
+                        .newLine()
+                        .build()
+                )
+            }
+            plugin.proxy.shutdown()
+            return
+        }
+
+        source.sendText("Successfully planned a proxy shutdown in ${formatSeconds(delayInSeconds)} with reason: $shutdownReason")
         plannedShutdownTime = System.currentTimeMillis() + delayInSeconds * 1000
 
         for (i in delayInSeconds downTo 1) {
@@ -77,12 +93,13 @@ class ShutdownCommand : SimpleCommand {
             plugin.logger.warn("Shutting down the proxy as planned, reason: $shutdownReason")
 
             plugin.proxy.allPlayers.forEach {
-                it.disconnect(MessageBuilder()
-                    .newLine()
-                    .withPrefix().white("The proxy is shutting down...").newLine()
-                    .withPrefix().modernGreen(shutdownReason).newLine()
-                    .newLine()
-                    .build()
+                it.disconnect(
+                    MessageBuilder()
+                        .newLine()
+                        .withPrefix().white("The proxy is shutting down...").newLine()
+                        .withPrefix().modernGreen(shutdownReason).newLine()
+                        .newLine()
+                        .build()
                 )
             }
 
@@ -160,6 +177,10 @@ class ShutdownCommand : SimpleCommand {
     }
 
     private fun parseTime(input: String): Int? {
+        if (input.equals("n", ignoreCase = true) || input.equals("now", ignoreCase = true)) {
+            return 0
+        }
+
         val match = Regex("(\\d+)([smh])").matchEntire(input.lowercase()) ?: return null
         val (amountStr, unit) = match.destructured
         val amount = amountStr.toIntOrNull() ?: return null
