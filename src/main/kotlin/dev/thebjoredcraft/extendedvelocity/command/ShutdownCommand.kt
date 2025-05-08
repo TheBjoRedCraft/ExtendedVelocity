@@ -31,6 +31,21 @@ class ShutdownCommand : SimpleCommand {
             "plan" -> planShutdown(source, args)
             "cancel" -> cancelShutdown(source)
             "info" -> shutdownInfo(source)
+            "now", "n" -> {
+                shutdownReason = args.drop(1).joinToString(" ").ifEmpty { "Proxy shutting down immediately." }
+                source.sendText("Shutting down the proxy now with reason: $shutdownReason")
+                plugin.proxy.allPlayers.forEach {
+                    it.disconnect(
+                        MessageBuilder()
+                            .newLine()
+                            .withPrefix().white("The proxy is shutting down...").newLine()
+                            .withPrefix().modernGreen(shutdownReason).newLine()
+                            .newLine()
+                            .build()
+                    )
+                }
+                plugin.proxy.shutdown()
+            }
             else -> sendUsage(source)
         }
     }
@@ -154,7 +169,7 @@ class ShutdownCommand : SimpleCommand {
         val args = invocation.arguments()
 
         if (args.size <= 1) {
-            return listOf("plan", "cancel", "info")
+            return listOf("plan", "cancel", "info", "now", "n")
         }
 
         return emptyList()
@@ -173,6 +188,9 @@ class ShutdownCommand : SimpleCommand {
                 .withPrefix().newLine()
                 .withPrefix().white("/shutdown info").newLine()
                 .darkSpacer(" - ").modernGreen("Show information about the planned shutdown.").newLine()
+                .withPrefix().newLine()
+                .withPrefix().white("/shutdown now <reason>").newLine()
+                .darkSpacer(" - ").modernGreen("Shutdown the proxy with a specific reason.").newLine()
         )
     }
 
