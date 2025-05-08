@@ -32,7 +32,7 @@ class ShutdownCommand : SimpleCommand {
             "cancel" -> cancelShutdown(source)
             "info" -> shutdownInfo(source)
             "now", "n" -> {
-                shutdownReason = args.drop(1).joinToString(" ").ifEmpty { "Proxy shutting down immediately." }
+                shutdownReason = args.drop(1).joinToString(" ").ifEmpty { "Proxy shutting down..." }
                 source.sendText("Shutting down the proxy now with reason: $shutdownReason")
                 plugin.proxy.allPlayers.forEach {
                     it.disconnect(
