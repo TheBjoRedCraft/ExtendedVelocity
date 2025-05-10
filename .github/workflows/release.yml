@@ -1,0 +1,51 @@
+name: Build & Release Velocity Plugin
+
+on:
+  push:
+    branches:
+      - master
+      - version/1.1.0
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: 21
+
+      - name: Grant execute permission for Gradle
+        run: chmod +x ./gradlew
+
+      - name: Build with ShadowJar
+        run: ./gradlew shadowJar
+
+      - name: Set release tag name
+        id: tag
+        run: |
+          BRANCH_NAME="${GITHUB_REF#refs/heads/}"
+          if [ "$BRANCH_NAME" == "master" ]; then
+            TAG_NAME="latest"
+          else
+            TAG_NAME="${BRANCH_NAME##*/}"
+          fi
+          echo "tag_name=$TAG_NAME-$(date +%Y%m%d%H%M%S)" >> $GITHUB_OUTPUT
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.tag.outputs.tag_name }}
+          name: Release ${{ steps.tag.outputs.tag_name }}
+          generate_release_notes: true
+          files: build/libs/*.jar
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
