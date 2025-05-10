@@ -1,12 +1,18 @@
 package dev.thebjoredcraft.extendedvelocity.command
 
+import com.github.shynixn.mccoroutine.velocity.launch
 import com.velocitypowered.api.command.CommandSource
 import com.velocitypowered.api.command.SimpleCommand
+import dev.thebjoredcraft.extendedvelocity.container
+import dev.thebjoredcraft.extendedvelocity.database.DatabaseService
 
 import dev.thebjoredcraft.extendedvelocity.message.MessageBuilder
+import dev.thebjoredcraft.extendedvelocity.playtime.PlaytimeService
 import dev.thebjoredcraft.extendedvelocity.plugin
 import dev.thebjoredcraft.extendedvelocity.util.error
+import dev.thebjoredcraft.extendedvelocity.util.formatTime
 import dev.thebjoredcraft.extendedvelocity.util.sendRawText
+import dev.thebjoredcraft.extendedvelocity.util.sendText
 
 import kotlin.jvm.optionals.getOrNull
 
@@ -32,16 +38,21 @@ class LookupCommand: SimpleCommand {
             return
         }
 
-        source.sendRawText(MessageBuilder().spacer(" ")
-            .withPrefix().modernGreen("Server Connection of ${target.username}").newLine()
-            .withPrefix().newLine()
-            .withPrefix().modernGreen("Server: ").white(connection.serverInfo.name).newLine()
-            .withPrefix().modernGreen("Ping: ").white("${target.ping}ms").newLine()
-            .withPrefix().modernGreen("Address: ").white(target.remoteAddress.toString()).newLine()
-            .withPrefix().modernGreen("Client: ").white(target.clientBrand ?: "N/A").newLine()
-            .globalCommand("/server ${connection.serverInfo.name}")
-            .globalHover(MessageBuilder().modernGreen("Click to connect to ${connection.serverInfo.name}"))
-        )
+        source.sendText(MessageBuilder().modernGreen("Requesting data of ${target.username}..."))
+
+        container.launch {
+            source.sendRawText(MessageBuilder().spacer(" ")
+                .withPrefix().modernGreen("Server Connection of ${target.username}").newLine()
+                .withPrefix().newLine()
+                .withPrefix().modernGreen("Server: ").white(connection.serverInfo.name).newLine()
+                .withPrefix().modernGreen("Ping: ").white("${target.ping}ms").newLine()
+                .withPrefix().modernGreen("Address: ").white(target.remoteAddress.toString()).newLine()
+                .withPrefix().modernGreen("Client: ").white(target.clientBrand ?: "N/A").newLine()
+                .withPrefix().modernGreen("Fist Seen: ").white(formatTime(PlaytimeService.UuidMechanics.getFirstSeen(target.uniqueId) ?: System.currentTimeMillis())).newLine()
+                .globalCommand("/server ${connection.serverInfo.name}")
+                .globalHover(MessageBuilder().modernGreen("Click to connect to ${connection.serverInfo.name}"))
+            )
+        }
     }
 
     override fun hasPermission(invocation: SimpleCommand.Invocation): Boolean {
