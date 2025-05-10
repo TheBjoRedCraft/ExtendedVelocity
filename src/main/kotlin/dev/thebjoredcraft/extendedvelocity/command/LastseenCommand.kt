@@ -36,6 +36,16 @@ class LastseenCommand: SimpleCommand {
         }
     }
 
+    override fun suggest(invocation: SimpleCommand.Invocation): List<String> {
+        val args = invocation.arguments()
+
+        if (args.size <= 1) {
+            return plugin.proxy.allPlayers.map { it.username }
+        }
+
+        return emptyList()
+    }
+
     override fun hasPermission(invocation: SimpleCommand.Invocation): Boolean {
         return invocation.source().hasPermission("extendedvelocity.lastseen.command")
     }
@@ -44,7 +54,7 @@ class LastseenCommand: SimpleCommand {
         source.sendRawText(MessageBuilder().spacer(" ")
             .withPrefix().modernGreen("Available Arguments/Sub Commands for /lastseen").newLine()
             .withPrefix().newLine()
-            .withPrefix().white("/lastseen").newLine()
+            .withPrefix().white("/lastseen <player>").newLine()
             .darkSpacer(" - ").modernGreen("Check the last online time of a player.").newLine()
         )
     }

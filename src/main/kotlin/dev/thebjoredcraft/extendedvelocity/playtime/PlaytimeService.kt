@@ -23,12 +23,15 @@ object PlaytimeService {
     }
 
     object UuidMechanics {
-        suspend fun updateFirstSeen(uuid: UUID) = withContext(Dispatchers.IO){
+        suspend fun updateFirstSeen(uuid: UUID, username: String) = withContext(Dispatchers.IO){
             newSuspendedTransaction {
                 if(this@UuidMechanics.isFirstSeen(uuid)) {
                     Playtime.insert {
                         it[Playtime.uuid] = uuid
+                        it[Playtime.username] = username
                         it[Playtime.firstSeen] = System.currentTimeMillis()
+                        it[Playtime.lastSeen] = System.currentTimeMillis()
+                        it[Playtime.playtime] = 0
                     }
                 } else {
                     Playtime.update({ Playtime.uuid eq uuid }) {
@@ -64,15 +67,8 @@ object PlaytimeService {
 
         suspend fun updateLastSeen(uuid: UUID) = withContext(Dispatchers.IO) {
             newSuspendedTransaction {
-                if(this@UuidMechanics.isFirstSeen(uuid)) {
-                    Playtime.insert {
-                        it[Playtime.uuid] = uuid
-                        it[Playtime.lastSeen] = System.currentTimeMillis()
-                    }
-                } else {
-                    Playtime.update({ Playtime.uuid eq uuid }) {
-                        it[lastSeen] = System.currentTimeMillis()
-                    }
+                Playtime.update({ Playtime.uuid eq uuid }) {
+                    it[lastSeen] = System.currentTimeMillis()
                 }
             }
         }
@@ -91,12 +87,15 @@ object PlaytimeService {
     }
 
     object NameMechanics {
-        suspend fun updateFirstSeen(username: String) = withContext(Dispatchers.IO){
+        suspend fun updateFirstSeen(username: String, uuid: UUID) = withContext(Dispatchers.IO){
             newSuspendedTransaction {
                 if(this@NameMechanics.isFirstSeen(username)) {
                     Playtime.insert {
                         it[Playtime.username] = username
+                        it[Playtime.uuid] = uuid
                         it[Playtime.firstSeen] = System.currentTimeMillis()
+                        it[Playtime.lastSeen] = System.currentTimeMillis()
+                        it[Playtime.playtime] = 0
                     }
                 } else {
                     Playtime.update({ Playtime.username eq username }) {
@@ -132,15 +131,8 @@ object PlaytimeService {
 
         suspend fun updateLastSeen(username: String) = withContext(Dispatchers.IO){
             newSuspendedTransaction {
-                if(this@NameMechanics.isFirstSeen(username)) {
-                    Playtime.insert {
-                        it[Playtime.username] = username
-                        it[Playtime.lastSeen] = System.currentTimeMillis()
-                    }
-                } else {
-                    Playtime.update({ Playtime.username eq username }) {
-                        it[lastSeen] = System.currentTimeMillis()
-                    }
+                Playtime.update({ Playtime.username eq username }) {
+                    it[lastSeen] = System.currentTimeMillis()
                 }
             }
         }

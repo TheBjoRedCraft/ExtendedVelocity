@@ -14,16 +14,11 @@ class PlaytimeListener {
         val uuid = player.uniqueId
 
         container.launch {
-            println("Player ${player.username} connected a server")
-
             if (PlaytimeService.UuidMechanics.isFirstSeen(uuid)) {
-                println("Player ${player.username} is first seen.")
-                PlaytimeService.UuidMechanics.updateFirstSeen(uuid)
+                PlaytimeService.UuidMechanics.updateFirstSeen(uuid, player.username)
             }
 
             PlaytimeService.UuidMechanics.updateLastSeen(uuid)
-
-            println("Player ${player.username} last seen updated.")
         }
     }
 }
