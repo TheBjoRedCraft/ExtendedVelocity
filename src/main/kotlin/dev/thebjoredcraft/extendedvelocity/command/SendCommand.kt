@@ -72,14 +72,14 @@ class SendCommand : SimpleCommand {
         }
 
         if (allowedPlayers.isEmpty()) {
-            source.sendText("&cDu hast keine Berechtigung, einen dieser Spieler zu senden.")
+            sendUsage(source)
             return
         }
 
         val server = plugin.proxy.getServer(targetServer).getOrNull()
 
         if (server == null) {
-            source.sendText("&cZielserver '$targetServer' nicht gefunden.")
+            source.error("The requested server was not found.")
             return
         }
 
@@ -87,15 +87,13 @@ class SendCommand : SimpleCommand {
 
         allowedPlayers.forEach { player ->
             player.createConnectionRequest(server).connect().thenAccept {
-                if (it.isSuccessful) {
-                    source.sendText(MessageBuilder().modernGreen("Successfully connected to ${server.serverInfo.name}"))
-                } else {
-                    source.error("Failed to connect to ${server.serverInfo.name}.")
+                if (!it.isSuccessful) {
                     failed++
+                    player.error("Failed to connect to ${server.serverInfo.name}.")
                 }
             }.exceptionally {
                 failed++
-                source.error("An error occurred while trying to connect to ${server.serverInfo.name}: ${it.message}")
+                player.error("An error occurred while trying to connect to ${server.serverInfo.name}: ${it.message}")
                 null
             }
         }
