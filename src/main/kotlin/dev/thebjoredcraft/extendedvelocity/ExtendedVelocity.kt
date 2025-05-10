@@ -86,6 +86,7 @@ class ExtendedVelocity {
         commandManager.register(commandManager.metaBuilder("list").aliases("vlist").build(), ListCommand())
         commandManager.register(commandManager.metaBuilder("maintenance").build(), MaintenanceCommand())
         commandManager.register(commandManager.metaBuilder("lastseen").build(), LastseenCommand())
+        commandManager.register(commandManager.metaBuilder("send").build(), SendCommand())
 
         eventManager.register(this, MaintenanceListener())
         eventManager.register(this, MotdListener())
