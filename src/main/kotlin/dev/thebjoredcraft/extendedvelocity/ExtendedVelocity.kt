@@ -16,6 +16,7 @@ import dev.thebjoredcraft.extendedvelocity.command.*
 import dev.thebjoredcraft.extendedvelocity.command.internal.ExtendedVelocityCommand
 import dev.thebjoredcraft.extendedvelocity.command.maintenance.MaintenanceCommand
 import dev.thebjoredcraft.extendedvelocity.config.Config
+import dev.thebjoredcraft.extendedvelocity.database.DatabaseService
 import dev.thebjoredcraft.extendedvelocity.maintenance.MaintenanceListener
 import dev.thebjoredcraft.extendedvelocity.maintenance.MaintenanceService
 import dev.thebjoredcraft.extendedvelocity.message.Colors
@@ -56,6 +57,7 @@ class ExtendedVelocity {
     var maintenanceConfig: Config? = null
     var brandConfig: Config? = null
     var motdConfig: Config? = null
+    var databaseConfig: Config? = null
 
     @Subscribe
     fun onInitialization(event: ProxyInitializeEvent) {
@@ -80,6 +82,8 @@ class ExtendedVelocity {
         eventManager.register(this, MaintenanceListener())
         eventManager.register(this, MotdListener())
 
+        DatabaseService.load()
+        DatabaseService.connect()
         CustomBrandService.load()
         CustomBrandService.start()
         MotdService.load()
@@ -99,6 +103,9 @@ class ExtendedVelocity {
 
         motdConfig = Config(folder = dataFolder, fileName = "motd")
         motdConfig?.load()
+
+        databaseConfig = Config(folder = dataFolder, fileName = "database")
+        databaseConfig?.load()
     }
 
     @Subscribe

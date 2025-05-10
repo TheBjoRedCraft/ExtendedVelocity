@@ -3,6 +3,7 @@ package dev.thebjoredcraft.extendedvelocity.command.internal
 import com.velocitypowered.api.command.CommandSource
 import com.velocitypowered.api.command.SimpleCommand
 import dev.thebjoredcraft.extendedvelocity.brand.CustomBrandService
+import dev.thebjoredcraft.extendedvelocity.database.DatabaseService
 import dev.thebjoredcraft.extendedvelocity.maintenance.MaintenanceService
 import dev.thebjoredcraft.extendedvelocity.message.Colors
 
@@ -11,6 +12,7 @@ import dev.thebjoredcraft.extendedvelocity.motd.MotdService
 import dev.thebjoredcraft.extendedvelocity.plugin
 import dev.thebjoredcraft.extendedvelocity.util.sendRawText
 import dev.thebjoredcraft.extendedvelocity.util.sendText
+import javax.xml.crypto.Data
 import kotlin.system.measureTimeMillis
 
 class ExtendedVelocityCommand: SimpleCommand {
@@ -34,6 +36,7 @@ class ExtendedVelocityCommand: SimpleCommand {
                 val ms = measureTimeMillis {
                     plugin.loadConfigurations()
 
+                    DatabaseService.reload()
                     CustomBrandService.reload()
                     Colors.loadPrefix()
                     MaintenanceService.reload()

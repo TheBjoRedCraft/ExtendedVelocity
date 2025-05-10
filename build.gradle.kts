@@ -26,8 +26,19 @@ dependencies {
     kapt(libs.velocity.api)
 
     implementation(libs.bstats.api)
-    implementation("io.netty:netty-buffer:5.0.0.Alpha2")
-    implementation("net.objecthunter:exp4j:0.4.8")
+    implementation(libs.netty)
+    implementation(libs.exp4j)
+    implementation(libs.sqlite)
+    implementation(libs.mariadb)
+
+    api(libs.bundles.exposed) {
+        exclude("org.jetbrains.kotlin", "kotlin-stdlib")
+        exclude("org.jetbrains.kotlin", "kotlin-reflect")
+        exclude("org.jetbrains.kotlinx", "kotlinx-coroutines-core")
+        exclude("org.slf4j", "slf4j-api")
+    }
+
+    api(libs.hikari)
 }
 
 tasks.shadowJar {
