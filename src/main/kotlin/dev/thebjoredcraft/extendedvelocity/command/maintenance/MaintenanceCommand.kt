@@ -19,7 +19,7 @@ class MaintenanceCommand: SimpleCommand {
 
         when (args[0]) {
             "status" -> {
-                source.sendText(when(MaintenanceService.isEnabled()){
+                source.sendText(when(MaintenanceService.isEnabled()) {
                     true -> MessageBuilder().modernGreen("The maintenance is currently enabled.")
                     false -> MessageBuilder().modernGreen("The maintenance is currently disabled.")
                 })
