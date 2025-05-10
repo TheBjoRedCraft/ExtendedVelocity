@@ -1,10 +1,9 @@
-name: Build & Release Velocity Plugin
+name: Build & Release
 
 on:
   push:
     branches:
       - master
-      - version/1.1.0
 
 permissions:
   contents: write
@@ -34,7 +33,7 @@ jobs:
         run: |
           BRANCH_NAME="${GITHUB_REF#refs/heads/}"
           if [ "$BRANCH_NAME" == "master" ]; then
-            TAG_NAME="latest"
+            TAG_NAME="build"
           else
             TAG_NAME="${BRANCH_NAME##*/}"
           fi
