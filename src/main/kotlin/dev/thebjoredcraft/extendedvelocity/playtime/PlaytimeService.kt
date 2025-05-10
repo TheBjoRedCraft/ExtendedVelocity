@@ -4,9 +4,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.Table
+import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import org.jetbrains.exposed.sql.update
+import org.jetbrains.exposed.sql.upsert
 import java.util.UUID
 
 object PlaytimeService {
@@ -23,15 +25,22 @@ object PlaytimeService {
     object UuidMechanics {
         suspend fun updateFirstSeen(uuid: UUID) = withContext(Dispatchers.IO){
             newSuspendedTransaction {
-                Playtime.update({ Playtime.uuid eq uuid }) {
-                    it[firstSeen] = System.currentTimeMillis()
+                if(this@UuidMechanics.isFirstSeen(uuid)) {
+                    Playtime.insert {
+                        it[Playtime.uuid] = uuid
+                        it[Playtime.firstSeen] = System.currentTimeMillis()
+                    }
+                } else {
+                    Playtime.update({ Playtime.uuid eq uuid }) {
+                        it[firstSeen] = System.currentTimeMillis()
+                    }
                 }
             }
         }
 
         suspend fun getFirstSeen(uuid: UUID): Long? = withContext(Dispatchers.IO) {
             return@withContext newSuspendedTransaction {
-                val result = Playtime.selectAll().where(Playtime.uuid eq uuid).firstOrNull()
+                val result = Playtime.select(Playtime.uuid eq uuid).firstOrNull()
 
                 if(result == null) {
                     return@newSuspendedTransaction null
@@ -43,7 +52,7 @@ object PlaytimeService {
 
         suspend fun isFirstSeen(uuid: UUID): Boolean = withContext(Dispatchers.IO) {
             return@withContext newSuspendedTransaction {
-                val result = Playtime.selectAll().where(Playtime.uuid eq uuid).firstOrNull()
+                val result = Playtime.select(Playtime.uuid eq uuid).firstOrNull()
 
                 if(result == null) {
                     return@newSuspendedTransaction true
@@ -53,17 +62,24 @@ object PlaytimeService {
             }
         }
 
-        suspend fun updateLastSeen(uuid: UUID) = withContext(Dispatchers.IO){
+        suspend fun updateLastSeen(uuid: UUID) = withContext(Dispatchers.IO) {
             newSuspendedTransaction {
-                Playtime.update({ Playtime.uuid eq uuid }) {
-                    it[lastSeen] = System.currentTimeMillis()
+                if(this@UuidMechanics.isFirstSeen(uuid)) {
+                    Playtime.insert {
+                        it[Playtime.uuid] = uuid
+                        it[Playtime.lastSeen] = System.currentTimeMillis()
+                    }
+                } else {
+                    Playtime.update({ Playtime.uuid eq uuid }) {
+                        it[lastSeen] = System.currentTimeMillis()
+                    }
                 }
             }
         }
 
         suspend fun getLastSeen(uuid: UUID): Long? = withContext(Dispatchers.IO) {
             return@withContext newSuspendedTransaction {
-                val result = Playtime.selectAll().where(Playtime.uuid eq uuid).firstOrNull()
+                val result = Playtime.select(Playtime.uuid eq uuid).firstOrNull()
 
                 if(result == null) {
                     return@newSuspendedTransaction null
@@ -77,15 +93,22 @@ object PlaytimeService {
     object NameMechanics {
         suspend fun updateFirstSeen(username: String) = withContext(Dispatchers.IO){
             newSuspendedTransaction {
-                Playtime.update({ Playtime.username eq username }) {
-                    it[firstSeen] = System.currentTimeMillis()
+                if(this@NameMechanics.isFirstSeen(username)) {
+                    Playtime.insert {
+                        it[Playtime.username] = username
+                        it[Playtime.firstSeen] = System.currentTimeMillis()
+                    }
+                } else {
+                    Playtime.update({ Playtime.username eq username }) {
+                        it[firstSeen] = System.currentTimeMillis()
+                    }
                 }
             }
         }
 
         suspend fun getFirstSeen(username: String): Long? = withContext(Dispatchers.IO) {
             return@withContext newSuspendedTransaction {
-                val result = Playtime.selectAll().where(Playtime.username eq username).firstOrNull()
+                val result = Playtime.select(Playtime.username eq username).firstOrNull()
 
                 if(result == null) {
                     return@newSuspendedTransaction null
@@ -97,7 +120,7 @@ object PlaytimeService {
 
         suspend fun isFirstSeen(username: String): Boolean = withContext(Dispatchers.IO) {
             return@withContext newSuspendedTransaction {
-                val result = Playtime.selectAll().where(Playtime.username eq username).firstOrNull()
+                val result = Playtime.select(Playtime.username eq username).firstOrNull()
 
                 if(result == null) {
                     return@newSuspendedTransaction true
@@ -109,15 +132,22 @@ object PlaytimeService {
 
         suspend fun updateLastSeen(username: String) = withContext(Dispatchers.IO){
             newSuspendedTransaction {
-                Playtime.update({ Playtime.username eq username }) {
-                    it[lastSeen] = System.currentTimeMillis()
+                if(this@NameMechanics.isFirstSeen(username)) {
+                    Playtime.insert {
+                        it[Playtime.username] = username
+                        it[Playtime.lastSeen] = System.currentTimeMillis()
+                    }
+                } else {
+                    Playtime.update({ Playtime.username eq username }) {
+                        it[lastSeen] = System.currentTimeMillis()
+                    }
                 }
             }
         }
 
         suspend fun getLastSeen(username: String): Long? = withContext(Dispatchers.IO) {
             return@withContext newSuspendedTransaction {
-                val result = Playtime.selectAll().where(Playtime.username eq username).firstOrNull()
+                val result = Playtime.select(Playtime.username eq username).firstOrNull()
 
                 if(result == null) {
                     return@newSuspendedTransaction null
