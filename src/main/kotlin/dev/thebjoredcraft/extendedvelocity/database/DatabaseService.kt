@@ -2,9 +2,12 @@ package dev.thebjoredcraft.extendedvelocity.database
 
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
+import dev.thebjoredcraft.extendedvelocity.playtime.PlaytimeService
 import dev.thebjoredcraft.extendedvelocity.plugin
 import dev.thebjoredcraft.extendedvelocity.util.databaseConfig
 import org.jetbrains.exposed.sql.Database
+import org.jetbrains.exposed.sql.SchemaUtils
+import org.jetbrains.exposed.sql.transactions.transaction
 import kotlin.io.path.createFile
 import kotlin.io.path.div
 import kotlin.io.path.notExists
@@ -47,8 +50,12 @@ object DatabaseService {
 
         when (storageMethod) {
             DatabaseStorageMethod.SQLITE -> connectSqlite()
-            DatabaseStorageMethod.MYSQL -> connectMariaDb()
+            DatabaseStorageMethod.MYSQL -> connectMysql()
             DatabaseStorageMethod.MARIADB -> connectMariaDb()
+        }
+
+        transaction {
+            SchemaUtils.create(PlaytimeService.Playtime)
         }
     }
 
@@ -95,6 +102,26 @@ object DatabaseService {
 
         connection = Database.connect(HikariDataSource(hikariConfig))
         plugin.logger.info("Connected to MariaDB database at ${hostname}:${port}/${database}")
+    }
+
+    private fun connectMysql() {
+        Class.forName("com.mysql.cj.jdbc.Driver")
+
+        plugin.logger.info("Connecting to Mysql database at ${hostname}:${port}/${database}")
+
+        val hikariConfig = HikariConfig().apply {
+            this.jdbcUrl = "jdbc:mysql://${hostname}:${port}/${database}"
+            this.username = this@DatabaseService.username
+            this.password = this@DatabaseService.password
+            this.driverClassName = "com.mysql.cj.jdbc.Driver"
+            this.isAutoCommit = false
+            this.transactionIsolation = "TRANSACTION_REPEATABLE_READ"
+
+            validate()
+        }
+
+        connection = Database.connect(HikariDataSource(hikariConfig))
+        plugin.logger.info("Connected to Mysql database at ${hostname}:${port}/${database}")
     }
 
     fun disconnect() {

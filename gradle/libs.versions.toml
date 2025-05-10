@@ -8,6 +8,8 @@ sqlite = "3.49.1.0"
 mariadb = "3.5.2"
 netty = "5.0.0.Alpha2"
 exp4j = "0.4.8"
+kotlin-coroutines = "1.10.2"
+mccoroutine-velocity = "2.22.0"
 
 [libraries]
 velocity-api = { module = "com.velocitypowered:velocity-api", version.ref = "velocity-api" }
@@ -24,6 +26,10 @@ mariadb = { module = "org.mariadb.jdbc:mariadb-java-client", version.ref = "mari
 
 netty = { module = "io.netty:netty-buffer", version.ref = "netty" }
 exp4j = { module = "net.objecthunter:exp4j", version.ref = "exp4j" }
+kotlin-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlin-coroutines" }
+mccoroutine-velocity-api = { module = "com.github.shynixn.mccoroutine:mccoroutine-velocity-api", version.ref = "mccoroutine-velocity" }
+mccoroutine-velocity-core = { module = "com.github.shynixn.mccoroutine:mccoroutine-velocity-core", version.ref = "mccoroutine-velocity" }
 
 [bundles]
 exposed = ["exposed-core", "exposed-jdbc", "exposed-dao", "exposed-java-time"]
+mccoroutine = ["mccoroutine-velocity-api", "mccoroutine-velocity-core"]

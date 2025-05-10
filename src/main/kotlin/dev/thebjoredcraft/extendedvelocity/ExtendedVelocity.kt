@@ -1,5 +1,6 @@
 package dev.thebjoredcraft.extendedvelocity
 
+import com.github.shynixn.mccoroutine.velocity.SuspendingPluginContainer
 import com.google.gson.Gson
 import com.google.inject.Inject
 
@@ -22,6 +23,7 @@ import dev.thebjoredcraft.extendedvelocity.maintenance.MaintenanceService
 import dev.thebjoredcraft.extendedvelocity.message.Colors
 import dev.thebjoredcraft.extendedvelocity.motd.MotdListener
 import dev.thebjoredcraft.extendedvelocity.motd.MotdService
+import dev.thebjoredcraft.extendedvelocity.playtime.PlaytimeListener
 
 import org.bstats.velocity.Metrics
 import org.slf4j.Logger
@@ -50,6 +52,9 @@ class ExtendedVelocity {
     lateinit var metricsFactory: Metrics.Factory
 
     @Inject
+    lateinit var suspendingPluginContainer: SuspendingPluginContainer
+
+    @Inject
     @DataDirectory
     lateinit var dataFolder: Path
 
@@ -61,9 +66,11 @@ class ExtendedVelocity {
 
     @Subscribe
     fun onInitialization(event: ProxyInitializeEvent) {
+        suspendingPluginContainer.initialize(this)
         INSTANCE = this
-        this.loadConfigurations()
         metricsFactory.make(this, 25615)
+
+        this.loadConfigurations()
 
         val commandManager = proxy.commandManager
         val eventManager = proxy.eventManager
@@ -78,9 +85,11 @@ class ExtendedVelocity {
         commandManager.register(commandManager.metaBuilder("extendedvelocity").aliases("ev").build(), ExtendedVelocityCommand())
         commandManager.register(commandManager.metaBuilder("list").aliases("vlist").build(), ListCommand())
         commandManager.register(commandManager.metaBuilder("maintenance").build(), MaintenanceCommand())
+        commandManager.register(commandManager.metaBuilder("lastseen").build(), LastseenCommand())
 
         eventManager.register(this, MaintenanceListener())
         eventManager.register(this, MotdListener())
+        eventManager.register(this, PlaytimeListener())
 
         DatabaseService.load()
         DatabaseService.connect()
@@ -122,3 +131,4 @@ class ExtendedVelocity {
 
 val gson = Gson()
 val plugin get() = ExtendedVelocity.INSTANCE
+val container get() = plugin.proxy.pluginManager.getPlugin("extendedvelocity").get()

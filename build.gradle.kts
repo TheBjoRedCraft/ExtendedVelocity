@@ -30,6 +30,8 @@ dependencies {
     implementation(libs.exp4j)
     implementation(libs.sqlite)
     implementation(libs.mariadb)
+    implementation(libs.kotlin.coroutines)
+    implementation(libs.bundles.mccoroutine)
 
     api(libs.bundles.exposed) {
         exclude("org.jetbrains.kotlin", "kotlin-stdlib")
