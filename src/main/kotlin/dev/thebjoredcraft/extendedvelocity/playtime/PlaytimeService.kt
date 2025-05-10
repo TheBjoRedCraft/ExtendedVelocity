@@ -139,7 +139,7 @@ object PlaytimeService {
 
         suspend fun getLastSeen(username: String): Long? = withContext(Dispatchers.IO) {
             return@withContext newSuspendedTransaction {
-                val result = Playtime.select(Playtime.username eq username).firstOrNull()
+                val result = Playtime.selectAll().where(Playtime.username eq username).firstOrNull()
 
                 if(result == null) {
                     return@newSuspendedTransaction null
