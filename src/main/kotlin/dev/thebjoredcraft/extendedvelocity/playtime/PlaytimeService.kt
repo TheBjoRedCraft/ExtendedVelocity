@@ -43,7 +43,7 @@ object PlaytimeService {
 
         suspend fun getFirstSeen(uuid: UUID): Long? = withContext(Dispatchers.IO) {
             return@withContext newSuspendedTransaction {
-                val result = Playtime.select(Playtime.uuid eq uuid).firstOrNull()
+                val result = Playtime.selectAll().where(Playtime.uuid eq uuid).firstOrNull()
 
                 if(result == null) {
                     return@newSuspendedTransaction null
@@ -55,7 +55,7 @@ object PlaytimeService {
 
         suspend fun isFirstSeen(uuid: UUID): Boolean = withContext(Dispatchers.IO) {
             return@withContext newSuspendedTransaction {
-                val result = Playtime.select(Playtime.uuid eq uuid).firstOrNull()
+                val result = Playtime.selectAll().where(Playtime.uuid eq uuid).firstOrNull()
 
                 if(result == null) {
                     return@newSuspendedTransaction true
@@ -75,7 +75,7 @@ object PlaytimeService {
 
         suspend fun getLastSeen(uuid: UUID): Long? = withContext(Dispatchers.IO) {
             return@withContext newSuspendedTransaction {
-                val result = Playtime.select(Playtime.uuid eq uuid).firstOrNull()
+                val result = Playtime.selectAll().where(Playtime.uuid eq uuid).firstOrNull()
 
                 if(result == null) {
                     return@newSuspendedTransaction null
@@ -107,7 +107,7 @@ object PlaytimeService {
 
         suspend fun getFirstSeen(username: String): Long? = withContext(Dispatchers.IO) {
             return@withContext newSuspendedTransaction {
-                val result = Playtime.select(Playtime.username eq username).firstOrNull()
+                val result = Playtime.selectAll().where(Playtime.username eq username).firstOrNull()
 
                 if(result == null) {
                     return@newSuspendedTransaction null
@@ -119,7 +119,7 @@ object PlaytimeService {
 
         suspend fun isFirstSeen(username: String): Boolean = withContext(Dispatchers.IO) {
             return@withContext newSuspendedTransaction {
-                val result = Playtime.select(Playtime.username eq username).firstOrNull()
+                val result = Playtime.selectAll().where(Playtime.username eq username).firstOrNull()
 
                 if(result == null) {
                     return@newSuspendedTransaction true
