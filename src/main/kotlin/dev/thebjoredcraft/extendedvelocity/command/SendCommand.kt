@@ -25,7 +25,7 @@ class SendCommand : SimpleCommand {
         val targetServer = args[1]
 
         if (!source.hasPermission("extendedvelocity.send.server.$targetServer") && !source.hasPermission("extendedvelocity.send.server.*")) {
-            sendUsage(source)
+            source.error("You don't have permission to send players to this server.")
             return
         }
 
@@ -107,7 +107,7 @@ class SendCommand : SimpleCommand {
     }
 
     private fun sendUsage(source: CommandSource) {
-        source.sendRawText(
+        source.sendRawText (
             MessageBuilder().spacer(" ")
                 .withPrefix().modernGreen("Command Help for /send").newLine()
                 .withPrefix().newLine()
