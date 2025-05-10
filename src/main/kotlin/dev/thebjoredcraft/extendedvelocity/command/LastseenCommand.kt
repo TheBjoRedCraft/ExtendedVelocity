@@ -24,6 +24,13 @@ class LastseenCommand: SimpleCommand {
             return
         }
 
+        val player = plugin.proxy.getPlayer(args[0]).getOrNull()
+
+        if (player != null) {
+            source.sendText(MessageBuilder().modernGreen("${args[0]} is currently online."))
+            return
+        }
+
         container.launch {
             val lastSeen = PlaytimeService.NameMechanics.getLastSeen(args[0])
 
