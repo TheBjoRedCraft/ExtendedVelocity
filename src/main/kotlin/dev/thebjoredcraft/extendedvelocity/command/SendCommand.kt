@@ -121,7 +121,7 @@ class SendCommand : SimpleCommand {
         val args = invocation.arguments()
 
         return when (args.size) {
-            0, 1 -> {
+            0 -> {
                 val suggestions = mutableListOf<String>()
 
                 if (source.hasPermission("extendedvelocity.send.target.*") || source.hasPermission("extendedvelocity.send.target.current")) {
@@ -143,15 +143,39 @@ class SendCommand : SimpleCommand {
                 suggestions.sorted()
             }
 
+            1 -> {
+                val input = args[0].lowercase()
+                val suggestions = mutableListOf<String>()
+
+                if ((source.hasPermission("extendedvelocity.send.target.*") || source.hasPermission("extendedvelocity.send.target.current")) && "current".startsWith(input)) {
+                    suggestions.add("current")
+                }
+                if ((source.hasPermission("extendedvelocity.send.target.*") || source.hasPermission("extendedvelocity.send.target.other")) && "other".startsWith(input)) {
+                    suggestions.add("other")
+                }
+                if (source.hasPermission("extendedvelocity.send.target.*") && "*".startsWith(input)) {
+                    suggestions.add("*")
+                }
+
+                suggestions.addAll(
+                    plugin.proxy.allPlayers
+                        .filter { (source.hasPermission("extendedvelocity.send.target.${it.username}") || source.hasPermission("extendedvelocity.send.target.*")) && it.username.lowercase().startsWith(input) }
+                        .map { it.username }
+                )
+
+                suggestions.sorted()
+            }
+
             2 -> {
+                val input = args[1].lowercase()
                 plugin.proxy.allServers
-                    .filter { source.hasPermission("extendedvelocity.send.server.${it.serverInfo.name}") || source.hasPermission("extendedvelocity.send.server.*") }
+                    .filter { (source.hasPermission("extendedvelocity.send.server.${it.serverInfo.name}") || source.hasPermission("extendedvelocity.send.server.*")) && it.serverInfo.name.lowercase().startsWith(input) }
                     .map { it.serverInfo.name }
                     .sorted()
             }
+
             else -> emptyList()
         }
     }
-
 }
 
