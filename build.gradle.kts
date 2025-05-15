@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "dev.thebjoredcraft.extendedvelocity"
-version = "1.1.0-SNAPSHOT"
+version = "1.1.0"
 
 repositories {
     mavenCentral()
@@ -45,6 +45,7 @@ dependencies {
 
 tasks.shadowJar {
     relocate("org.bstats", "dev.thebjoredcraft.extendedvelocity.bstats")
+    archiveFileName = "ExtendedVelocity-${project.version}-dev.jar"
 }
 
 kotlin {
