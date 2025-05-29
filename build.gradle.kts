@@ -46,6 +46,11 @@ dependencies {
 tasks.shadowJar {
     relocate("org.bstats", "dev.thebjoredcraft.extendedvelocity.bstats")
     archiveFileName = "ExtendedVelocity-${project.version}-dev.jar"
+    dependencies {
+        exclude(dependency("org.jetbrains.kotlin:kotlin-stdlib"))
+        exclude(dependency("org.jetbrains.kotlin:kotlin-stdlib-jdk8"))
+        exclude(dependency("org.jetbrains.kotlin:kotlin-reflect"))
+    }
 }
 
 kotlin {
