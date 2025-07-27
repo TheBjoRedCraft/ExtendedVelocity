@@ -29,7 +29,7 @@ import org.bstats.velocity.Metrics
 import org.slf4j.Logger
 import java.nio.file.Path
 
-@Plugin (
+@Plugin(
     id = "extendedvelocity",
     name = "ExtendedVelocity",
     version = "1.0.0-SNAPSHOT",
@@ -76,17 +76,36 @@ class ExtendedVelocity {
         val eventManager = proxy.eventManager
 
         commandManager.register(commandManager.metaBuilder("lookup").build(), LookupCommand())
-        commandManager.register(commandManager.metaBuilder("broadcast").aliases("alert").build(), BroadcastCommand())
-        commandManager.register(commandManager.metaBuilder("vversion").aliases("vver").build(), VersionCommand())
-        commandManager.register(commandManager.metaBuilder("vplugins").aliases("vpl").build(), PluginsCommand())
+        commandManager.register(
+            commandManager.metaBuilder("broadcast").aliases("alert").build(),
+            BroadcastCommand()
+        )
+        commandManager.register(
+            commandManager.metaBuilder("vversion").aliases("vver").build(),
+            VersionCommand()
+        )
+        commandManager.register(
+            commandManager.metaBuilder("vplugins").aliases("vpl").build(),
+            PluginsCommand()
+        )
         commandManager.register(commandManager.metaBuilder("server").build(), ServerCommand())
         commandManager.register(commandManager.metaBuilder("shutdown").build(), ShutdownCommand())
         commandManager.register(commandManager.metaBuilder("whereami").build(), WhereAmICommand())
-        commandManager.register(commandManager.metaBuilder("extendedvelocity").aliases("ev").build(), ExtendedVelocityCommand())
-        commandManager.register(commandManager.metaBuilder("list").aliases("vlist").build(), ListCommand())
-        commandManager.register(commandManager.metaBuilder("maintenance").build(), MaintenanceCommand())
+        commandManager.register(
+            commandManager.metaBuilder("extendedvelocity").aliases("ev").build(),
+            ExtendedVelocityCommand()
+        )
+        commandManager.register(
+            commandManager.metaBuilder("list").aliases("vlist").build(),
+            ListCommand()
+        )
+        commandManager.register(
+            commandManager.metaBuilder("maintenance").build(),
+            MaintenanceCommand()
+        )
         commandManager.register(commandManager.metaBuilder("lastseen").build(), LastseenCommand())
         commandManager.register(commandManager.metaBuilder("send").build(), SendCommand())
+        commandManager.register(commandManager.metaBuilder("kick").build(), KickCommand())
 
         eventManager.register(this, MaintenanceListener())
         eventManager.register(this, MotdListener())

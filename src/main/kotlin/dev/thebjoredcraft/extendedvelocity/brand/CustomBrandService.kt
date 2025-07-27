@@ -11,7 +11,6 @@ import dev.thebjoredcraft.extendedvelocity.util.brandConfig
 import dev.thebjoredcraft.extendedvelocity.util.miniMessage
 import io.netty.buffer.Unpooled
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer
-import java.nio.charset.StandardCharsets
 import java.util.concurrent.TimeUnit
 
 object CustomBrandService {
