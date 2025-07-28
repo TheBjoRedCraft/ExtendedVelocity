@@ -105,7 +105,7 @@ class ExtendedVelocity {
         )
         commandManager.register(commandManager.metaBuilder("lastseen").build(), LastseenCommand())
         commandManager.register(commandManager.metaBuilder("send").build(), SendCommand())
-        commandManager.register(commandManager.metaBuilder("kick").build(), KickCommand())
+        commandManager.register(commandManager.metaBuilder("vkick").build(), KickCommand())
 
         eventManager.register(this, MaintenanceListener())
         eventManager.register(this, MotdListener())
